@@ -1,6 +1,6 @@
 namespace dynamic_form
 {
-    public class InputBuilder : IContentBuilder
+    public abstract class InputBuilder : IContentBuilder, IContentSetter
     {
         private readonly Dictionary<string, object> _content;
 
@@ -29,10 +29,28 @@ namespace dynamic_form
             return this;
         }
 
+        protected InputBuilder Options(IEnumerable<string> options)
+        {
+            _content["options"] = options;
+            return this;
+        }
+
+        protected InputBuilder Data(string uri, IEnumerable<string> dataPath)
+        {
+            _content["pullUrl"] = uri;
+            _content["selectDataAccessor"] = dataPath;
+            return this;
+        }
+
         protected InputBuilder Placeholder(string placeHolder)
         {
             _content["placeholder"] = placeHolder;
             return this;
+        }
+
+        public void Set(string key, object value)
+        {
+            _content[key] = value;
         }
 
         protected InputBuilder Validation(Dictionary<string, object> validations)

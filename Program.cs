@@ -1,5 +1,10 @@
 ﻿using dynamic_form;
 
+// var formModelBuilder = new FormModelBuilder();
+// formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
+// var output = ((IBuilder)formModelBuilder).Build(new Serializer());
+// Console.WriteLine(output);
+
 IFormBuilder<User> userFormBuilder = new FormBuilder<User>();
 
 userFormBuilder
@@ -15,31 +20,30 @@ userFormBuilder
     .WithValidation(x => x.Required())
     .Label("Email address");
 
-userFormBuilder
-    .CheckBox(x => x.Email);
-// .Data<Response<User[]>>(new Uri(""), x => x.Data)
-//     .Placeholder("Enter email address")
+Console.WriteLine($"Text");
+
+
+// // TODO: allow multiple
+// userFormBuilder
+//     .CheckBox(x => x.Interests)
+//     .Options(Lookups.Interests)
+//     .Label("Test");
+
+// userFormBuilder
+//     .Select(x => x.Interests)
+//     .Data<Response<User[]>>(new Uri("http://example.com"), x => x.Data)
+//     .Label("Test");
+
+// userFormBuilder
+//     .PasswordField(x => x.Password)
+//     .WithValidation(x => x.Required().MinLength(10))
+//     .Label("Password");
+
+// userFormBuilder
+//     .ConfirmField(x => x.Password, InputType.Password) // infer input type from reference
+//     .Placeholder("Confirm Password")
 //     .WithValidation(x => x.Required())
-//     .Label("Email address");
+//     .Label("Confirm Password");
 
-
-var output = ((IBuilder)userFormBuilder).Build(new Serializer());
-Console.WriteLine(output);
-
-// userBuilder
-//     .EmailField(x => x.Email)
-//     .Label("Email Address")
-//     .Placeholder("Enter your email address")
-//     .WithValidation(x => x.Required().MaxLength(255).MinLength(10))
-//     .WithValidation(x => x.OnOf(new[] { "1", "2", "3" }));
-
-
-// userBuilder
-//     .Property(x => x.Age, InputType.Number)
-//     .Label(nameof(User.Age))
-//     .WithValidation(x => x.AllowNegative().Required())
-//     .WithOptions(x => x.Data<Response<User[]>>(new Uri("https://api.com/users"), u => u.Data));
-
-
-
-
+// var output = ((IBuilder)userFormBuilder).Build(new Serializer());
+// Console.WriteLine(output);
