@@ -1,27 +1,25 @@
 ﻿using dynamic_form;
 
-// var formModelBuilder = new FormModelBuilder();
-// formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
-// var output = ((IBuilder)formModelBuilder).Build(new Serializer());
-// Console.WriteLine(output);
+var formModelBuilder = new FormModelBuilder();
+formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
+formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
+var output = ((IBuilder)formModelBuilder).Build();
+Console.WriteLine(Serializer.Serialize(output));
 
-IFormBuilder<User> userFormBuilder = new FormBuilder<User>();
+// IFormBuilder<User> userFormBuilder = new FormBuilder<User>();
 
-userFormBuilder
-    .Property(x => x.Age, InputType.Number)
-    .Placeholder("Enter your age")
-    .WithValidation(x => x.Required().AllowNegative())
-    .Label("Age")
-    .WithValidation(x => x.MinLength(18).MaxLength(99));
+// userFormBuilder
+//     .Property(x => x.Age, InputType.Number)
+//     .Placeholder("Enter your age")
+//     .WithValidation(x => x.Required().AllowNegative())
+//     .Label("Age")
+//     .WithValidation(x => x.MinLength(18).MaxLength(99));
 
-userFormBuilder
-    .EmailField(x => x.Email)
-    .Placeholder("Enter email address")
-    .WithValidation(x => x.Required())
-    .Label("Email address");
-
-Console.WriteLine($"Text");
-
+// userFormBuilder
+//     .EmailField(x => x.Email)
+//     .Placeholder("Enter email address")
+//     .WithValidation(x => x.Required())
+//     .Label("Email address");
 
 // // TODO: allow multiple
 // userFormBuilder
@@ -45,5 +43,5 @@ Console.WriteLine($"Text");
 //     .WithValidation(x => x.Required())
 //     .Label("Confirm Password");
 
-// var output = ((IBuilder)userFormBuilder).Build(new Serializer());
-// Console.WriteLine(output);
+// var output = ((IBuilder)userFormBuilder).Build();
+// Console.WriteLine(Serializer.Serialize(output));

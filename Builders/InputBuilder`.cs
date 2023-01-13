@@ -48,7 +48,7 @@ namespace dynamic_form
 
         public IInputBuilder<TProperty> WithValidation(Func<IInputValidator<TProperty>, IInputValidator<TProperty>> validation)
         {
-            var validationContent = ((IContentBuilder)validation(new InputValidator<TProperty>())).Content;
+            var validationContent = ((IBuilder)validation(new InputValidator<TProperty>())).Build();
             return (InputBuilder<TProperty>)base.Validation(validationContent);
         }
     }

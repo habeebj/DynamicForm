@@ -26,10 +26,10 @@ namespace dynamic_form
             return this;
         }
 
-        public string Build(ISerializer serializer)
+        public Dictionary<string, object> Build()
         {
-            _content["data"] = _formBuilders.Select(x => ((IContentBuilder)x).Content);
-            return serializer.Serialize(_content);
+            _content["data"] = _formBuilders.Select(x => x.Build());
+            return _content;
         }
     }
 

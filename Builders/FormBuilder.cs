@@ -7,10 +7,16 @@ namespace dynamic_form
         protected readonly Dictionary<string, object> _content = new Dictionary<string, object>();
         protected readonly IList<InputBuilder> _inputs = new List<InputBuilder>();
 
-        public string Build(ISerializer serializer)
+        // public string Build(ISerializer serializer)
+        // {
+        //     _content["form"] = _inputs.Select(x => ((IContentBuilder)x).Content);
+        //     return serializer.Serialize(_content);
+        // }
+
+        public Dictionary<string, object> Build()
         {
-            _content["form"] = _inputs.Select(x => ((IContentBuilder)x).Content);
-            return serializer.Serialize(_content);
+            _content["form"] = _inputs.Select(x => x.Build());
+            return _content;
         }
 
         public IInputBuilder<TProperty> Property<TProperty>(string propertyName, string inputType, Dictionary<string, object>? additionalFields = null)

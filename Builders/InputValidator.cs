@@ -1,11 +1,9 @@
 namespace dynamic_form
 {
 
-    public class InputValidator : IInputValidator, IContentBuilder, IContentSetter
+    public class InputValidator : IInputValidator, IBuilder, IContentSetter
     {
         private readonly Dictionary<string, object> _content = new();
-
-        public Dictionary<string, object> Content => _content;
 
         public InputValidator OneOf(string[] options)
         {
@@ -34,6 +32,11 @@ namespace dynamic_form
         public void Set(string key, object value)
         {
             _content[key] = value;
+        }
+
+        public Dictionary<string, object> Build()
+        {
+            return _content;
         }
     }
 }

@@ -1,15 +1,15 @@
 namespace dynamic_form
 {
-    public abstract class InputBuilder : IContentBuilder, IContentSetter
+    public abstract class InputBuilder : IContentSetter, IBuilder
     {
         private readonly Dictionary<string, object> _content;
-
-        public Dictionary<string, object> Content => _content;
 
         protected InputBuilder()
         {
             _content = new Dictionary<string, object>();
         }
+
+        public Dictionary<string, object> Build() => _content;
 
         protected InputBuilder Id(string id)
         {
