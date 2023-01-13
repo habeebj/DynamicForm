@@ -1,9 +1,10 @@
-﻿using dynamic_form;
+﻿using System.Reflection;
+using dynamic_form;
 
-var formModelBuilder = new FormModelBuilder();
-formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
-formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
-var output = ((IBuilder)formModelBuilder).Build();
+var formCollectionBuilder = new FormCollectionBuilder();
+formCollectionBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+// formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
+var output = ((IBuilder)formCollectionBuilder).Build();
 Console.WriteLine(Serializer.Serialize(output));
 
 // IFormBuilder<User> userFormBuilder = new FormBuilder<User>();
