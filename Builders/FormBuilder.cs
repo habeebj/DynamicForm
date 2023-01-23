@@ -15,13 +15,13 @@ namespace dynamic_form
             return _content;
         }
 
-        public IInputBuilder<TProperty> Property<TProperty>(string propertyName, string inputType, Dictionary<string, object>? additionalFields = null)
+        public IInputBuilder<TProperty> Property<TProperty>(string propertyName, string inputType, Dictionary<string, object>? additionalAttributes = null)
         {
             var inputBuilder = new InputBuilder<TProperty>(propertyName, inputType);
 
-            if (additionalFields != null)
+            if (additionalAttributes != null)
             {
-                foreach (var item in additionalFields)
+                foreach (var item in additionalAttributes)
                 {
                     ((IContentSetter)inputBuilder).Set(item.Key, item.Value);
                 }

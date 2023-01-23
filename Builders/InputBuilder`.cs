@@ -4,10 +4,10 @@ namespace dynamic_form
 
     public class InputBuilder<TProperty> : InputBuilder, IInputBuilder<TProperty>, IOptionBuilder<TProperty>
     {
-        public InputBuilder(string property, string type)
+        public InputBuilder(string id, string type)
         {
             base.Type(type.ToLower());
-            base.Id(property);
+            base.Id(id);
         }
 
         /// <summary>
@@ -20,10 +20,10 @@ namespace dynamic_form
         {
             // TODO: validate URI
             ArgumentNullException.ThrowIfNullOrEmpty(property);
-            return (InputBuilder<TProperty>)base.Data(uri, property.Split('.'));
+            return (InputBuilder<TProperty>)base.SetData(uri, property.Split('.'));
         }
 
-        public IInputBuilder<TProperty> Data<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression)
+        public IInputBuilder<TProperty> SetData<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression)
         {
             var properties = new List<string>();
             var memberExpression = selectExpression.Body as MemberExpression;
@@ -34,7 +34,7 @@ namespace dynamic_form
                 memberExpression = memberExpression.Expression as MemberExpression;
             }
 
-            return (IInputBuilder<TProperty>)base.Data(uri.ToString(), properties);
+            return (IInputBuilder<TProperty>)base.SetData(uri.ToString(), properties);
         }
 
         public new IInputBuilder<TProperty> Options(IEnumerable<string> options)

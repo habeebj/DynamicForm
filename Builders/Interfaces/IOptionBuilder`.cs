@@ -5,5 +5,5 @@ public interface IOptionBuilder<TProperty>
 {
     IInputBuilder<TProperty> Data(string uri, string property);
     IInputBuilder<TProperty> Options(IEnumerable<string> options);
-    IInputBuilder<TProperty> Data<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression);
+    IInputBuilder<TProperty> SetData<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression);
 }

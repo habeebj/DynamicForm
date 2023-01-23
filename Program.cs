@@ -2,8 +2,9 @@
 using dynamic_form;
 
 var formCollectionBuilder = new FormCollectionBuilder();
-formCollectionBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-// formModelBuilder.ApplyConfiguration(new LoginFormConfiguration());
+formCollectionBuilder.ApplyConfiguration(Assembly.GetExecutingAssembly());
+// formCollectionBuilder.ApplyConfiguration(new LoginFormConfiguration());
+// formCollectionBuilder.ApplyConfiguration(new LoginFormConfiguration());
 var output = ((IBuilder)formCollectionBuilder).Build();
 Console.WriteLine(Serializer.Serialize(output));
 
@@ -25,12 +26,12 @@ Console.WriteLine(Serializer.Serialize(output));
 // // TODO: allow multiple
 // userFormBuilder
 //     .CheckBox(x => x.Interests)
-//     .Options(Lookups.Interests)
+//     .Options(Lookups.Interests) // TODO: name=Male value=1
 //     .Label("Test");
 
 // userFormBuilder
 //     .Select(x => x.Interests)
-//     .Data<Response<User[]>>(new Uri("http://example.com"), x => x.Data)
+//     .SetData<Response<User[]>>(new Uri("http://example.com"), x => x.Data)
 //     .Label("Test");
 
 // userFormBuilder

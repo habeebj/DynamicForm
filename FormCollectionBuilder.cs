@@ -14,7 +14,7 @@ namespace dynamic_form
             return this;
         }
 
-        public virtual FormCollectionBuilder ApplyConfigurationsFromAssembly(Assembly assembly, Func<Type, bool>? predicate = null)
+        public virtual FormCollectionBuilder ApplyConfiguration(Assembly assembly, Func<Type, bool>? predicate = null)
         {
             var applyEntityConfigurationMethod = typeof(FormCollectionBuilder)
                 .GetMethods()

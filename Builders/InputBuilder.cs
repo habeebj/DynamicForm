@@ -35,7 +35,7 @@ namespace dynamic_form
             return this;
         }
 
-        protected InputBuilder Data(string uri, IEnumerable<string> dataPath)
+        protected InputBuilder SetData(string uri, IEnumerable<string> dataPath)
         {
             _content["pullUrl"] = uri;
             _content["selectDataAccessor"] = dataPath;
