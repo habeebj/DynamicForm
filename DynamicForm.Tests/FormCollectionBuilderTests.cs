@@ -1,6 +1,6 @@
 namespace DynamicForm.Tests
 {
-    public class InputValidatorTests
+    public class FormCollectionBuilderTests
     {
         
     }

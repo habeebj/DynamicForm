@@ -1,5 +1,6 @@
 using System.Reflection;
 using DynamicForm;
+using DynamicForm.Interfaces;
 
 var formCollectionBuilder = new FormCollectionBuilder();
 formCollectionBuilder.ApplyConfiguration(Assembly.GetExecutingAssembly());
