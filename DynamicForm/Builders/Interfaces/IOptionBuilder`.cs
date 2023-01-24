@@ -1,9 +1,0 @@
-using System.Linq.Expressions;
-
-namespace DynamicForm.Interfaces;
-public interface IOptionBuilder<TProperty>
-{
-    IInputBuilder<TProperty> Data(string uri, string property);
-    IInputBuilder<TProperty> Options(IEnumerable<string> options);
-    IInputBuilder<TProperty> SetData<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression);
-}
