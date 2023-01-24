@@ -18,14 +18,14 @@ namespace DynamicForm
         /// <param name="uri"></param>
         /// <param name="property">dot separated example: responseObject.results</param>
         /// <returns></returns>
-        public IInputBuilder<TProperty> Data(string uri, string property)
+        public IInputBuilder<TProperty> WithUrl(string uri, string property)
         {
             // TODO: validate URI
             ArgumentNullException.ThrowIfNullOrEmpty(property);
             return (InputBuilder<TProperty>)base.SetData(uri, property.Split('.'));
         }
 
-        public IInputBuilder<TProperty> SetData<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression)
+        public IInputBuilder<TProperty> WithUrl<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression)
         {
             var properties = new List<string>();
             var memberExpression = selectExpression.Body as MemberExpression;
@@ -39,7 +39,7 @@ namespace DynamicForm
             return (IInputBuilder<TProperty>)base.SetData(uri.ToString(), properties);
         }
 
-        public new IInputBuilder<TProperty> Options(IEnumerable<string> options)
+        public IInputBuilder<TProperty> AddOptions(IEnumerable<string> options)
             => (IInputBuilder<TProperty>)base.Options(options);
 
         public new IInputBuilder<TProperty> Label(string label)
