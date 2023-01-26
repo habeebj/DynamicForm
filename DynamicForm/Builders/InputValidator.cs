@@ -3,7 +3,7 @@ using DynamicForm.Interfaces;
 namespace DynamicForm
 {
 
-    public class InputValidator : IInputValidator, IBuilder, IContentSetter
+    public abstract class InputValidator : IInputValidator, IBuilder, IContentSetter
     {
         private readonly Dictionary<string, object> _content = new();
 

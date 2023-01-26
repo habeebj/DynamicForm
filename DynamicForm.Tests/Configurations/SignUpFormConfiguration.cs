@@ -2,7 +2,7 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm.Tests
 {
-    public class LoginFormConfiguration : IFormConfiguration<User>
+    public class SignUpFormConfiguration : IFormConfiguration<User>
     {
         public void Configure(IFormBuilder<User> builder)
         {
@@ -16,6 +16,10 @@ namespace DynamicForm.Tests
                 .PasswordField(x => x.Password)
                 .Label("Password")
                 .WithValidation(x => x.MinLength(10));
+
+            builder
+                .ConfirmField(x => x.Password, InputType.Password)
+                .Label("Confirm Password");
         }
     }
 }
