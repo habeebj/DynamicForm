@@ -3,7 +3,6 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm
 {
-
     public class InputBuilder<TProperty> : InputBuilder, IInputBuilder<TProperty>, IOptionBuilder<TProperty>
     {
         public InputBuilder(string id, string type)
@@ -15,14 +14,18 @@ namespace DynamicForm
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="uri"></param>
+        /// <param name="uriString"></param>
         /// <param name="property">dot separated example: responseObject.results</param>
         /// <returns></returns>
-        public IInputBuilder<TProperty> WithUrl(string uri, string property)
+        public IInputBuilder<TProperty> WithUrl(string uriString, string property)
         {
-            // TODO: validate URI
+            if (!Uri.IsWellFormedUriString(uriString, UriKind.RelativeOrAbsolute))
+            {
+                throw new ArgumentException("Invalid URI string");
+            }
+
             ArgumentNullException.ThrowIfNullOrEmpty(property);
-            return (InputBuilder<TProperty>)base.SetData(uri, property.Split('.'));
+            return (InputBuilder<TProperty>)base.SetData(uriString, property.Split('.'));
         }
 
         public IInputBuilder<TProperty> WithUrl<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression)
