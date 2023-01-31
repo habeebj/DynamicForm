@@ -1,10 +1,9 @@
+using DynamicForm;
 using DynamicForm.Interfaces;
 
-namespace DynamicForm.Tests.Configurations
+namespace Sample.Configurations
 {
-    public interface IScannable { }
-
-    public class ProfileFormConfiguration : FormConfiguration<User>, IScannable
+    public class ProfileFormConfiguration : FormConfiguration<User>
     {
         public override void Setup()
         {

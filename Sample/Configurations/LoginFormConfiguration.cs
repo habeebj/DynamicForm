@@ -1,13 +1,15 @@
+using DynamicForm;
 using DynamicForm.Interfaces;
 
-namespace DynamicForm.Tests
+namespace Sample.Configurations
 {
-    public class SignUpFormConfiguration : FormConfiguration<User>
+    public class LoginFormConfiguration : FormConfiguration<User>
     {
         public override void Setup()
         {
-            Index(2);
-            Api(HttpMethod.Post, "/accounts");
+            
+            Name("Login Form");
+            Api(HttpMethod.Post, "https://webhook.site/8fd12daf-2e7c-403c-9431-50319f18f08f");
         }
 
         public override void OnConfigure(IFormBuilder<User> builder)
@@ -22,10 +24,6 @@ namespace DynamicForm.Tests
                 .PasswordField(x => x.Password)
                 .Label("Password")
                 .WithValidation(x => x.MinLength(10));
-
-            builder
-                .ConfirmField(x => x.Password, InputType.Password)
-                .Label("Confirm Password");
         }
     }
 }
