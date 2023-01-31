@@ -11,6 +11,7 @@ namespace DynamicForm
         public virtual FormCollectionBuilder ApplyConfiguration<TEntity>(IFormConfiguration<TEntity> configuration) where TEntity : class
         {
             var builder = new FormBuilder<TEntity>();
+            // TODO: assign index based on the _formBuilders.Count. Pass next index to configure method
             configuration.Configure(builder);
             _formBuilders.Add(builder);
             return this;

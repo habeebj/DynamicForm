@@ -7,13 +7,9 @@ namespace DynamicForm
         protected readonly Dictionary<string, object> _content = new();
         protected readonly IList<InputBuilder> _inputs = new List<InputBuilder>();
 
-        // public abstract string URL { get; set; }
-        // public abstract string Name { get; set; }
-        // public abstract string Method { get; set; }
-
         public Dictionary<string, object> Build()
         {
-            _content["form"] = _inputs.Select(x => x.Build());
+            _content[Keys.FORM] = _inputs.Select(x => x.Build());
             return _content;
         }
 

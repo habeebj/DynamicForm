@@ -44,9 +44,9 @@ namespace DynamicForm
             OnConfigure(builder);
             if (builder is FormBuilder _builder)
             {
-                _builder.Set("api", _api ?? new object());
-                _builder.Set("name", _name);
-                _builder.Set("index", _index);
+                _builder.Set(Keys.NAME, _name);
+                _builder.Set(Keys.INDEX, _index);
+                _builder.Set(Keys.API, _api ?? new object());
             }
         }
     }
