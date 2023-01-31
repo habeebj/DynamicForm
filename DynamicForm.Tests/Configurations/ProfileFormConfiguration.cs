@@ -4,9 +4,15 @@ namespace DynamicForm.Tests.Configurations
 {
     public interface IScannable { }
 
-    public class ProfileFormConfiguration : IFormConfiguration<User>, IScannable
+    public class ProfileFormConfiguration : FormConfiguration<User>, IScannable
     {
-        public void Configure(IFormBuilder<User> builder)
+        public override void Setup()
+        {
+            Index(1);
+            Api(HttpMethod.Post, "/profile");
+        }
+
+        public override void OnConfigure(IFormBuilder<User> builder)
         {
             builder
                 .EmailField(x => x.Email)

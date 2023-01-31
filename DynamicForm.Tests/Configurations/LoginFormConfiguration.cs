@@ -2,9 +2,16 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm.Tests
 {
-    public class LoginFormConfiguration : IFormConfiguration<User>
+    public class LoginFormConfiguration : FormConfiguration<User>
     {
-        public void Configure(IFormBuilder<User> builder)
+        public override void Setup()
+        {
+            Index(0);
+            Name("Login Form");
+            Api(HttpMethod.Post, "https://webhook.site/8fd12daf-2e7c-403c-9431-50319f18f08f");
+        }
+
+        public override void OnConfigure(IFormBuilder<User> builder)
         {
             builder
                 .EmailField(x => x.Email)

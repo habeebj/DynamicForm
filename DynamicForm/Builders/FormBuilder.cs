@@ -2,7 +2,7 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm
 {
-    public abstract class FormBuilder : IFormBuilder, IBuilder
+    public abstract class FormBuilder : IFormBuilder, IBuilder, IContentSetter
     {
         protected readonly Dictionary<string, object> _content = new();
         protected readonly IList<InputBuilder> _inputs = new List<InputBuilder>();
@@ -32,6 +32,11 @@ namespace DynamicForm
             _inputs.Add(inputBuilder);
 
             return inputBuilder;
+        }
+
+        public void Set(string key, object value)
+        {
+            _content[key] = value;
         }
     }
 }

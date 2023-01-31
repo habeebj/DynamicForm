@@ -2,9 +2,15 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm.Tests
 {
-    public class SignUpFormConfiguration : IFormConfiguration<User>
+    public class SignUpFormConfiguration : FormConfiguration<User>
     {
-        public void Configure(IFormBuilder<User> builder)
+        public override void Setup()
+        {
+            Index(2);
+            Api(HttpMethod.Post, "/accounts");
+        }
+
+        public override void OnConfigure(IFormBuilder<User> builder)
         {
             builder
                 .EmailField(x => x.Email)
