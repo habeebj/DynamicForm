@@ -9,25 +9,25 @@ namespace DynamicForm
 
         public InputValidator OneOf(string[] options)
         {
-            _content["oneOf"] = options;
+            _content[Keys.ONE_OF] = options;
             return this;
         }
 
         public InputValidator MaxLength(int max)
         {
-            _content["max"] = max;
+            _content[Keys.MAX] = max;
             return this;
         }
 
         public InputValidator MinLength(int min)
         {
-            _content["min"] = min;
+            _content[Keys.MIN] = min;
             return this;
         }
 
         public InputValidator Required(bool isRequired = true)
         {
-            _content["required"] = isRequired;
+            _content[Keys.REQUIRED] = isRequired;
             return this;
         }
 

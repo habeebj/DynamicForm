@@ -15,38 +15,38 @@ namespace DynamicForm
 
         protected InputBuilder Id(string id)
         {
-            _content["id"] = id;
+            _content[Keys.ID] = id;
             return this;
         }
 
         protected InputBuilder Type(string type)
         {
-            _content["type"] = type;
+            _content[Keys.TYPE] = type;
             return this;
         }
 
         protected InputBuilder Label(string label)
         {
-            _content["label"] = label;
+            _content[Keys.LABEL] = label;
             return this;
         }
 
         protected InputBuilder Options(IEnumerable<string> options)
         {
-            _content["options"] = options;
+            _content[Keys.OPTIONS] = options;
             return this;
         }
 
         protected InputBuilder SetData(string uri, IEnumerable<string> dataPath)
         {
-            _content["pullUrl"] = uri;
-            _content["selectDataAccessor"] = dataPath;
+            _content[Keys.PULL_URL] = uri;
+            _content[Keys.SELECT_DATA_ACCESSOR] = dataPath;
             return this;
         }
 
         protected InputBuilder Placeholder(string placeHolder)
         {
-            _content["placeholder"] = placeHolder;
+            _content[Keys.PLACEHOLDER] = placeHolder;
             return this;
         }
 
@@ -57,9 +57,8 @@ namespace DynamicForm
 
         protected InputBuilder Validation(Dictionary<string, object> validations)
         {
-            const string validationKey = "validation";
             var validationContent = new Dictionary<string, object>();
-            if (_content.TryGetValue(validationKey, out var validationContentObject))
+            if (_content.TryGetValue(Keys.VALIDATION, out var validationContentObject))
             {
                 validationContent = validationContentObject as Dictionary<string, object>;
             }
@@ -71,7 +70,7 @@ namespace DynamicForm
                 validationContent[validation.Key] = validation.Value;
             }
 
-            _content[validationKey] = validationContent;
+            _content[Keys.VALIDATION] = validationContent;
 
             return this;
         }
