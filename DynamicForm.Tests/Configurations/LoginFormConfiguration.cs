@@ -8,7 +8,7 @@ namespace DynamicForm.Tests
         {
             Index(0);
             Name("Login Form");
-            Api(HttpMethod.Post, "https://webhook.site/8fd12daf-2e7c-403c-9431-50319f18f08f");
+            Api(HttpMethod.Post, "/account");
         }
 
         public override void OnConfigure(IFormBuilder<User> builder)
