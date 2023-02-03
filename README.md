@@ -1,3 +1,54 @@
+# Usage
+
+## Form Configuration
+
+```csharp
+public class LoginFormConfiguration : FormConfiguration<User>
+{
+    public override void Setup()
+    {
+        Name("Login Form");
+        Api(HttpMethod.Post, "/accounts");
+    }
+
+    public override void OnConfigure(IFormBuilder<User> builder)
+    {
+        builder
+            .EmailField(x => x.Email)
+            .Label("Email Address")
+            .Placeholder("Enter Email address")
+            .WithValidation(x => x.Required());
+
+        builder
+            .PasswordField(x => x.Password)
+            .Label("Password")
+            .WithValidation(x => x.MinLength(10));
+    }
+}
+```
+
+## Form context
+
+```csharp
+public class OnboardingFormContext : FormContext
+{
+    protected override void Setup()
+    {
+        Name("Merchant Onboarding");
+        Description("Merchant Onboarding");
+        BaseUrl("https://api.server.com");
+    }
+
+    protected override void OnFormCreating(FormCollectionBuilder formBuilder)
+    {
+        formBuilder.ApplyConfiguration(new LoginFormConfiguration());
+        formBuilder.ApplyConfiguration(new ProfileFormConfiguration());
+    }
+}
+```
+
+# Validations
+
 ## Extending dynamic form validation
 
 ```csharp
@@ -8,9 +59,10 @@ public static IInputValidator<int> AllowNegative(this IInputValidator<int> valid
 }
 ```
 
-## TODO: 
+## TODO:
+
 - Select Option with Name Value pair
-- Additional properties for form and form collections
+- Additional properties for form and form collections ✅
 - Customizable key for all properties
 - ASP Core library to expose form endpoint
 

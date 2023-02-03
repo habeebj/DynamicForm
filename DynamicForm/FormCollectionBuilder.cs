@@ -3,7 +3,7 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm
 {
-    public class FormCollectionBuilder : IFormCollectionBuilder, IBuilder
+    public class FormCollectionBuilder : IFormCollectionBuilder, IBuilder, IContentSetter
     {
         private readonly Dictionary<string, object> _content = new();
         private readonly IList<FormBuilder> _formBuilders = new List<FormBuilder>();
@@ -55,8 +55,13 @@ namespace DynamicForm
 
         public Dictionary<string, object> Build()
         {
-            _content["data"] = _formBuilders.Select(x => x.Build());
+            _content[Keys.DATA] = _formBuilders.Select(x => x.Build());
             return _content;
+        }
+
+        public void Set(string key, object value)
+        {
+            _content[key] = value;
         }
     }
 }
