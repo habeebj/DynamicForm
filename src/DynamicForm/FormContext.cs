@@ -14,6 +14,8 @@ namespace DynamicForm
             _name = this.GetType().Name.Replace("Context", string.Empty);
         }
 
+        public string ContextName => _name.Replace(' ', '-');
+
         protected void Name(string name) => _name = name;
         protected void BaseUrl(string url) => _baseUrl = url;
         protected void BaseUrl(Uri uri) => _baseUrl = uri.ToString();

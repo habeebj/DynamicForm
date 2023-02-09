@@ -1,5 +1,25 @@
 # Usage
 
+## ASP Core Usage
+
+```csharp
+builder.Services
+    .AddDynamicForm(options => {
+        // scan assembly for formContext
+        options.FromAssembly(Assembly.ExecutingAssembly());
+        // register individually
+        options.UseContext<SignUpFormContext>();
+        options.UseContext<OnBoardingFormContext>();
+    });
+
+builder.Services.AddDynamicForm();
+
+// use default /forms endpoint
+app.UseDynamicForm();
+
+app.UseDynamicForm("/my-forms");
+```
+
 ## Form Configuration
 
 ```csharp
@@ -61,9 +81,14 @@ public static IInputValidator<int> AllowNegative(this IInputValidator<int> valid
 
 ## TODO:
 
+- Pre request
+- ASP Core Library - Test
+  - DynamicFormOptions
+  - DynamicFormService
+  - Extensions
 - Select Option with Name Value pair
-- Additional properties for form and form collections ✅
 - Customizable key for all properties
-- ASP Core library to expose form endpoint
+- Additional properties for form and form collections ✅
+- ASP Core library to expose form endpoint ✅
 
 [Proof Of Concept](https://hackmd.io/ANY0TF8wT-ape0LOASalvQ)

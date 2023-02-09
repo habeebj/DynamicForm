@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using DynamicForm.Interfaces;
 
 namespace DynamicForm
@@ -24,7 +25,7 @@ namespace DynamicForm
 
         protected void Api(HttpMethod method, Uri url) => _api = new Api(method.Method, url.ToString());
 
-        protected void Api(HttpMethod method, string urlString)
+        protected void Api(HttpMethod method, [StringSyntax(StringSyntaxAttribute.Uri)] string urlString)
         {
             Api(method, new Uri(urlString, UriKind.RelativeOrAbsolute));
         }
