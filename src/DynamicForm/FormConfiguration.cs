@@ -1,18 +1,19 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using DynamicForm.Interfaces;
 
 namespace DynamicForm
 {
-    internal sealed record Api(string method, string urlString);
+    internal sealed record Api(string method, string url);
 
-    public record PreRequest();
+    public record PreRequest(int index, string key, string data_Key);
 
     public abstract class FormConfiguration<TModel> : IFormConfiguration<TModel> where TModel : class
     {
         private Api? _api;
         private int _index;
         private string _name;
-        private IEnumerable<PreRequest>? _preRequests;
+        private List<PreRequest> _preRequests = new();
 
         protected FormConfiguration()
         {
@@ -23,16 +24,22 @@ namespace DynamicForm
 
         protected void Index(int index) => _index = index;
 
+        protected void PreRequest<TEntity, TProperty>(int index, Expression<Func<TEntity, TProperty>> dataKeyExpression, Expression<Func<TModel, TProperty>> keyExpression) where TEntity : class
+        {
+            var dataKeyProperty = ((MemberExpression)dataKeyExpression.Body)?.Member.Name;
+            ArgumentNullException.ThrowIfNull(dataKeyProperty, nameof(dataKeyProperty));
+
+            var keyProperty = ((MemberExpression)keyExpression.Body)?.Member.Name;
+            ArgumentNullException.ThrowIfNull(keyProperty, nameof(keyProperty));
+
+            _preRequests.Add(new PreRequest(index, keyProperty, dataKeyProperty));
+        }
+
         protected void Api(HttpMethod method, Uri url) => _api = new Api(method.Method, url.ToString());
 
         protected void Api(HttpMethod method, [StringSyntax(StringSyntaxAttribute.Uri)] string urlString)
         {
             Api(method, new Uri(urlString, UriKind.RelativeOrAbsolute));
-        }
-
-        protected void PreRequest(IEnumerable<PreRequest> preRequests)
-        {
-            _preRequests = preRequests;
         }
 
         public abstract void Setup();
@@ -47,6 +54,7 @@ namespace DynamicForm
             {
                 _builder.Set(Keys.NAME, _name);
                 _builder.Set(Keys.INDEX, _index);
+                _builder.Set(Keys.PRE_REQUEST, _preRequests);
                 _builder.Set(Keys.API, _api ?? new object());
             }
         }
