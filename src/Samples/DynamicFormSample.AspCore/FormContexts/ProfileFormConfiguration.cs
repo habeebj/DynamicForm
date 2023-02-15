@@ -35,6 +35,7 @@ namespace DynamicFormSample.AspCore.FormContexts
         {
             Index(1);
             Api(HttpMethod.Put, "/accounts/profile");
+            PreRequest<User, string>(0, x => x.Id, x => x.UserId);
         }
     }
 }

@@ -7,4 +7,6 @@ public class Profile
     public string FirstName { get; set; } = null!;
     public string Biography { get; set; } = null!;
     public IEnumerable<string> Interests = new List<string> { "Reading" };
+
+    public string UserId { get; set; } = null!;
 }

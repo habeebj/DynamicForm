@@ -14,6 +14,7 @@ namespace DynamicForm
         public const string FORMS = "forms";
         public const string DATA = "data";
         public const string REQUIRED = "required";
+        public const string PRE_REQUEST = "pre_request";
         public const string MIN = "min";
         public const string MAX = "max";
         public const string ONE_OF = "oneOf";
