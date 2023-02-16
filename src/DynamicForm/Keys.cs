@@ -19,6 +19,7 @@ namespace DynamicForm
         public const string MAX = "max";
         public const string ONE_OF = "oneOf";
         public const string INDEX = "index";
+        public const string LENGTH = "length";
         public const string NAME = "name";
         public const string DESCRIPTION = "description";
         public const string BASE_URL = "base_url";

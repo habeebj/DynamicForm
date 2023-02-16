@@ -55,6 +55,7 @@ namespace DynamicForm
 
         public Dictionary<string, object> Build()
         {
+            _content[Keys.LENGTH] = _formBuilders.Count();
             _content[Keys.DATA] = _formBuilders.Select(x => x.Build());
             return _content;
         }
