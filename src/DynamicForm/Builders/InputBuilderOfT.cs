@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using DynamicForm.Interfaces;
+using DynamicForm.Utilities;
 
 namespace DynamicForm
 {
@@ -54,7 +55,8 @@ namespace DynamicForm
         public IInputBuilder<TProperty> WithValidation(Func<IInputValidator<TProperty>, IInputValidator<TProperty>> validation)
         {
             var validationContent = ((IBuilder)validation(new InputValidator<TProperty>())).Build();
-            return (InputBuilder<TProperty>)base.Validation(validationContent);
+            var validationType = ValidationTypeConverter.Convert<TProperty>();
+            return (InputBuilder<TProperty>)base.Validation(validationType, validationContent);
         }
     }
 }
