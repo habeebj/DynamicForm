@@ -55,7 +55,7 @@ namespace DynamicForm
             _content[key] = value;
         }
 
-        protected InputBuilder Validation(Dictionary<string, object> validations)
+        protected InputBuilder Validation(string validationType, Dictionary<string, object> validations)
         {
             var validationContent = new Dictionary<string, object>();
             if (_content.TryGetValue(Keys.VALIDATION, out var validationContentObject))
@@ -68,6 +68,11 @@ namespace DynamicForm
             foreach (var validation in validations)
             {
                 validationContent[validation.Key] = validation.Value;
+            }
+
+            if (!string.IsNullOrEmpty(validationType))
+            {
+                validationContent[Keys.TYPE] = validationType.ToLower();
             }
 
             _content[Keys.VALIDATION] = validationContent;
