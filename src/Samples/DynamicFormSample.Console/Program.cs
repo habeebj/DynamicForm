@@ -8,7 +8,7 @@ using Sample;
 // var output = ((IBuilder)formCollectionBuilder).Build();
 // Console.WriteLine(Serializer.Serialize(output));
 
-var onboardingContext = new OnboardingFormContext();
+var onboardingContext = new OnboardingFormCollection();
 var o = onboardingContext.Build();
 
 Console.WriteLine(Serializer.Serialize(o));

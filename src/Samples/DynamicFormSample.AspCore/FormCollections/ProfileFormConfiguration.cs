@@ -2,7 +2,7 @@ using DynamicForm;
 using DynamicForm.Interfaces;
 using DynamicFormSample.AspCore.Models;
 
-namespace DynamicFormSample.AspCore.FormContexts
+namespace DynamicFormSample.AspCore.FormCollections
 {
     public interface IMerchantOnboarding { }
     public class ProfileFormConfiguration : FormConfiguration<Profile>, IMerchantOnboarding

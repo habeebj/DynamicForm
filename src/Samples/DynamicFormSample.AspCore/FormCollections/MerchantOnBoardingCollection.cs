@@ -1,9 +1,9 @@
 using System.Reflection;
 using DynamicForm;
 
-namespace DynamicFormSample.AspCore.FormContexts
+namespace DynamicFormSample.AspCore.FormCollections
 {
-    public class MerchantOnBoardingContext : FormContext
+    public class MerchantOnBoardingCollection : DynamicForm.FormCollection
     {
         protected override void OnFormCreating(FormCollectionBuilder formBuilder)
         {

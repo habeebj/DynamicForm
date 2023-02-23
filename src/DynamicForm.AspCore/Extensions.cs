@@ -47,7 +47,7 @@ public static class Extensions
 
         options?.Invoke(opts);
 
-        services.TryAddSingleton<IEnumerable<FormContext>>(opts.formContexts);
+        services.TryAddSingleton<IEnumerable<FormCollection>>(opts.formCollections);
         services.TryAddSingleton<IDynamicFormService, DynamicFormService>();
 
         return services;
