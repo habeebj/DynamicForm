@@ -39,6 +39,18 @@ namespace DynamicForm.Tests
         }
 
         [Fact]
+        public void InputBuilder_DependsOn_ShouldBeSuccessful()
+        {
+            IInputBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
+            builder.DependsOn(x => x.Email);
+            var actual = ((IBuilder)builder).Build();
+
+            actual.Should().ContainKeys(Keys.DEPENDS_ON);
+            ((string[])actual[Keys.DEPENDS_ON]).Should().HaveCount(1);
+            ((string[])actual[Keys.DEPENDS_ON]).Should().Contain(nameof(User.Email));
+        }
+        
+        [Fact]
         public void OptionBuilder_WithOptions_ShouldBeSuccessful()
         {
             var labelKey = "label";
