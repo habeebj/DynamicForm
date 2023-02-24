@@ -32,7 +32,7 @@ public class DynamicFormOptions
         }
     }
 
-    public void AddCollectionFromAssembly(IEnumerable<Assembly> assemblies)
+    public void AddCollectionFromAssembly(params Assembly[] assemblies)
     {
         foreach (var assembly in assemblies)
         {
