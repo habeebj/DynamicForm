@@ -13,7 +13,7 @@ namespace DynamicForm.Tests
             var id = "name";
             var type = InputType.Text.ToString();
 
-            var builder = new InputBuilder<User>(id, type);
+            var builder = new InputBuilder<User, object>(id, type);
             var actual = builder.Build();
 
             actual.Should().ContainKeys(idKey, typeKey);
@@ -29,7 +29,7 @@ namespace DynamicForm.Tests
             var label = "First Name";
             var placeholder = "Enter First Name";
 
-            IInputBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IInputBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.Label(label).Placeholder(placeholder);
             var actual = ((IBuilder)builder).Build();
 
@@ -46,7 +46,7 @@ namespace DynamicForm.Tests
             var label = "First Name";
             var options = new[] { "A", "B", "C" };
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.AddOptions(options).Label(label);
             var actual = ((IBuilder)builder).Build();
 
@@ -64,7 +64,7 @@ namespace DynamicForm.Tests
             var label = "First Name";
             var url = "http://api.example.com/users";
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.WithUrl(url, "data.result").Label(label);
             var actual = ((IBuilder)builder).Build();
 
@@ -83,7 +83,7 @@ namespace DynamicForm.Tests
             var label = "First Name";
             Uri.TryCreate("http://api.example.com/users", UriKind.RelativeOrAbsolute, out Uri? url);
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.WithUrl<Response<User[]>>(url!, x => x.Data).Label(label);
             var actual = ((IBuilder)builder).Build();
 
@@ -98,7 +98,7 @@ namespace DynamicForm.Tests
         {
             var url = "http:api.example .com/users";
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
 
             Action act = () => builder.WithUrl(url, "data.result");
             act.Should().Throw<ArgumentException>().WithMessage("Invalid URI string");

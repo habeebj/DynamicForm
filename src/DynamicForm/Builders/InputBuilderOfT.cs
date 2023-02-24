@@ -4,7 +4,7 @@ using DynamicForm.Utilities;
 
 namespace DynamicForm
 {
-    public class InputBuilder<TProperty> : InputBuilder, IInputBuilder<TProperty>, IOptionBuilder<TProperty>
+    public class InputBuilder<TModel, TProperty> : InputBuilder, IInputBuilder<TModel, TProperty>, IOptionBuilder<TModel, TProperty>
     {
         public InputBuilder(string id, string type)
         {
@@ -18,7 +18,7 @@ namespace DynamicForm
         /// <param name="uriString"></param>
         /// <param name="property">dot separated example: responseObject.results</param>
         /// <returns></returns>
-        public IInputBuilder<TProperty> WithUrl(string uriString, string property)
+        public IInputBuilder<TModel, TProperty> WithUrl(string uriString, string property)
         {
             if (!Uri.IsWellFormedUriString(uriString, UriKind.RelativeOrAbsolute))
             {
@@ -26,10 +26,10 @@ namespace DynamicForm
             }
 
             ArgumentNullException.ThrowIfNullOrEmpty(property);
-            return (InputBuilder<TProperty>)base.SetData(uriString, property.Split('.'));
+            return (InputBuilder<TModel, TProperty>)base.SetData(uriString, property.Split('.'));
         }
 
-        public IInputBuilder<TProperty> WithUrl<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression)
+        public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression)
         {
             var properties = new List<string>();
             var memberExpression = selectExpression.Body as MemberExpression;
@@ -40,23 +40,35 @@ namespace DynamicForm
                 memberExpression = memberExpression.Expression as MemberExpression;
             }
 
-            return (IInputBuilder<TProperty>)base.SetData(uri.ToString(), properties);
+            return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties);
         }
 
-        public IInputBuilder<TProperty> AddOptions(IEnumerable<string> options)
-            => (IInputBuilder<TProperty>)base.Options(options);
+        public IInputBuilder<TModel, TProperty> DependsOn(params Expression<Func<TModel, TProperty>>[] propertyExpressions)
+        {
+            var properties = new List<string>();
+            foreach (var expression in propertyExpressions)
+            {
+                var propertyName = ((MemberExpression)expression.Body).Member.Name;
+                properties.Add(propertyName);
+            }
 
-        public new IInputBuilder<TProperty> Label(string label)
-            => (InputBuilder<TProperty>)base.Label(label);
+            return (IInputBuilder<TModel, TProperty>)base.DependsOn(properties.ToArray());
+        }
 
-        public new IInputBuilder<TProperty> Placeholder(string placeholder)
-            => (InputBuilder<TProperty>)base.Placeholder(placeholder);
+        public IInputBuilder<TModel, TProperty> AddOptions(IEnumerable<string> options)
+            => (IInputBuilder<TModel, TProperty>)base.Options(options);
 
-        public IInputBuilder<TProperty> WithValidation(Func<IInputValidator<TProperty>, IInputValidator<TProperty>> validation)
+        public new IInputBuilder<TModel, TProperty> Label(string label)
+            => (InputBuilder<TModel, TProperty>)base.Label(label);
+
+        public new IInputBuilder<TModel, TProperty> Placeholder(string placeholder)
+            => (InputBuilder<TModel, TProperty>)base.Placeholder(placeholder);
+
+        public IInputBuilder<TModel, TProperty> WithValidation(Func<IInputValidator<TProperty>, IInputValidator<TProperty>> validation)
         {
             var validationContent = ((IBuilder)validation(new InputValidator<TProperty>())).Build();
             var validationType = ValidationTypeConverter.Convert<TProperty>();
-            return (InputBuilder<TProperty>)base.Validation(validationType, validationContent);
+            return (InputBuilder<TModel, TProperty>)base.Validation(validationType, validationContent);
         }
     }
 }

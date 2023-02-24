@@ -49,6 +49,12 @@ namespace DynamicForm
             _content[Keys.PLACEHOLDER] = placeHolder;
             return this;
         }
+        
+        protected InputBuilder DependsOn(string[] properties)
+        {
+            _content[Keys.DEPENDS_ON] = properties;
+            return this;
+        }
 
         public void Set(string key, object value)
         {

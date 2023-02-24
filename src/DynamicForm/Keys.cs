@@ -10,6 +10,7 @@ namespace DynamicForm
         public const string PULL_URL = "pullUrl";
         public const string SELECT_DATA_ACCESSOR = "selectDataAccessor";
         public const string PLACEHOLDER = "placeholder";
+        public const string DEPENDS_ON = "depends_on";
         public const string VALIDATION = "validation";
         public const string FORMS = "forms";
         public const string DATA = "data";

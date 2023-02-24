@@ -23,6 +23,11 @@ namespace Sample.Configurations
                 .PasswordField(x => x.Password)
                 .Label("Password")
                 .WithValidation(x => x.MinLength(10));
+
+            builder
+                .PasswordField(x => x.Password)
+                .DependsOn(x => x.Email, x => x.Name)
+                .Label("Confirm Password");
         }
     }
 }
