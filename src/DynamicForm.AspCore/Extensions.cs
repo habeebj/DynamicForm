@@ -42,12 +42,12 @@ public static class Extensions
         var opts = new DynamicFormOptions();
         if (options is null)
         {
-            opts.AddContextFromAssembly(Assembly.GetExecutingAssembly());
+            opts.AddCollectionFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         options?.Invoke(opts);
 
-        services.TryAddSingleton<IEnumerable<FormContext>>(opts.formContexts);
+        services.TryAddSingleton<IEnumerable<FormCollection>>(opts.formCollections);
         services.TryAddSingleton<IDynamicFormService, DynamicFormService>();
 
         return services;

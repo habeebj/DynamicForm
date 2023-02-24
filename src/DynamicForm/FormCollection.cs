@@ -2,19 +2,19 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm
 {
-    public abstract class FormContext : IBuilder
+    public abstract class FormCollection : IBuilder
     {
         private string _name;
         private string? _baseUrl;
         private string? _description;
         private readonly FormCollectionBuilder _formCollectionBuilder = new();
 
-        protected FormContext()
+        protected FormCollection()
         {
-            _name = this.GetType().Name.Replace("Context", string.Empty);
+            _name = this.GetType().Name.Replace("Collection", string.Empty);
         }
 
-        public string ContextName => _name.Replace(' ', '-');
+        public string CollectionName => _name.Replace(' ', '-');
 
         protected void Name(string name) => _name = name;
         protected void BaseUrl(string url) => _baseUrl = url;

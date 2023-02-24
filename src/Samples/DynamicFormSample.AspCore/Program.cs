@@ -1,14 +1,14 @@
 using System.Reflection;
 using DynamicForm.AspCore;
-using DynamicFormSample.AspCore.FormContexts;
+using DynamicFormSample.AspCore.FormCollections;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDynamicForm(options =>
 {
     // options.AddContextFromAssembly(Assembly.GetExecutingAssembly());
-    options.AddContext<LoginContext>();
-    options.AddContext<MerchantOnBoardingContext>();
+    options.AddCollection<LoginFormCollection>();
+    options.AddCollection<MerchantOnBoardingCollection>();
 });
 
 builder.Services.AddEndpointsApiExplorer();
