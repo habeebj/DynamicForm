@@ -31,16 +31,21 @@ namespace DynamicForm
 
         public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression)
         {
-            var properties = new List<string>();
             var memberExpression = selectExpression.Body as MemberExpression;
+            var properties = GetProperties(memberExpression);
+            return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties);
+        }
 
+        private static string[] GetProperties(MemberExpression? memberExpression)
+        {
+            var properties = new List<string>();
             while (memberExpression != null)
             {
                 properties.Add(memberExpression.Member.Name);
                 memberExpression = memberExpression.Expression as MemberExpression;
             }
 
-            return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties);
+            return properties.ToArray();
         }
 
         public IInputBuilder<TModel, TProperty> DependsOn(params Expression<Func<TModel, TProperty>>[] propertyExpressions)
@@ -69,6 +74,14 @@ namespace DynamicForm
             var validationContent = ((IBuilder)validation(new InputValidator<TProperty>())).Build();
             var validationType = ValidationTypeConverter.Convert<TProperty>();
             return (InputBuilder<TModel, TProperty>)base.Validation(validationType, validationContent);
+        }
+
+        public IInputBuilder<TModel, TProperty> RemoteValidation<TResponseModel>(HttpMethod method, string url, Expression<Func<TResponseModel, object>> dataAccessor)
+        {
+            var memberExpression = dataAccessor.Body as MemberExpression;
+            var properties = GetProperties(memberExpression);
+
+            return (InputBuilder<TModel, TProperty>)base.RemoteValidation(method.ToString(), url, properties, null);
         }
     }
 }

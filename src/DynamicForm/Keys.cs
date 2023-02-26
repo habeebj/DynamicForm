@@ -8,7 +8,11 @@ namespace DynamicForm
         public const string LABEL = "label";
         public const string OPTIONS = "options";
         public const string PULL_URL = "pullUrl";
+        public const string URL = "url";
+        public const string METHOD = "method";
+        public const string REMOTE_VALIDATION = "remote_validation";
         public const string SELECT_DATA_ACCESSOR = "selectDataAccessor";
+        public const string DATA_ACCESSOR = "dataAccessor";
         public const string PLACEHOLDER = "placeholder";
         public const string DEPENDS_ON = "depends_on";
         public const string VALIDATION = "validation";

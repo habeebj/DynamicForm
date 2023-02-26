@@ -17,6 +17,8 @@ namespace Sample.Configurations
                 .EmailField(x => x.Email)
                 .Label("Email Address")
                 .Placeholder("Enter Email address")
+                .DependsOn(x => x.Name)
+                .RemoteValidation<Person>(HttpMethod.Get, "http://api.co/?email{Email}", x => x.Name)
                 .WithValidation(x => x.Required());
 
             builder
@@ -30,4 +32,6 @@ namespace Sample.Configurations
                 .Label("Confirm Password");
         }
     }
+
+    public record Person(string Name);
 }

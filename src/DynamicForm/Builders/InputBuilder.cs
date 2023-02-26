@@ -49,7 +49,20 @@ namespace DynamicForm
             _content[Keys.PLACEHOLDER] = placeHolder;
             return this;
         }
-        
+
+        protected InputBuilder RemoteValidation(string httpMethod, string urlPattern, string[] dataAccessor, object[] destinationKey)
+        {
+            // remote class (method, url, dataAccessor, destinationKey)
+            var content = new Dictionary<string, object>{
+                {Keys.METHOD, httpMethod},
+                {Keys.URL, urlPattern},
+                {Keys.DATA_ACCESSOR, dataAccessor},
+                // {Keys.METHOD, httpMethod},
+            };
+            _content[Keys.REMOTE_VALIDATION] = content;
+            return this;
+        }
+
         protected InputBuilder DependsOn(string[] properties)
         {
             _content[Keys.DEPENDS_ON] = properties;
