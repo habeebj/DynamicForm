@@ -81,13 +81,14 @@ public static IInputValidator<int> AllowNegative(this IInputValidator<int> valid
 
 ## TODO:
 
-- Pre request
+- Pre request ✅
 - ASP Core Library - Test
   - DynamicFormOptions
   - DynamicFormService
-  - Extensions
+  - Extensions ✅
 - Select Option with Name Value pair
 - Customizable key for all properties
+- Display property
 - Additional properties for form and form collections ✅
 - ASP Core library to expose form endpoint ✅
 

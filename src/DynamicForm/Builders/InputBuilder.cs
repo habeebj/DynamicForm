@@ -52,7 +52,6 @@ namespace DynamicForm
 
         protected InputBuilder RemoteValidation(string httpMethod, string urlPattern, string[] dataAccessor, object[] destinationKey)
         {
-            // remote class (method, url, dataAccessor, destinationKey)
             var content = new Dictionary<string, object>{
                 {Keys.METHOD, httpMethod},
                 {Keys.URL, urlPattern},
@@ -72,6 +71,12 @@ namespace DynamicForm
         public void Set(string key, object value)
         {
             _content[key] = value;
+        }
+
+        protected InputBuilder Form(Dictionary<string, object> form)
+        {
+            _content[Keys.FORM] = form[Keys.FORM];
+            return this;
         }
 
         protected InputBuilder Validation(string validationType, Dictionary<string, object> validations)

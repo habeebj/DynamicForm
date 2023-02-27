@@ -30,6 +30,21 @@ namespace Sample.Configurations
                 .Label(nameof(User.Biography))
                 .WithValidation(x => x.MaxLength(100))
                 .Placeholder("Biography");
+
+            builder.FormInput(x => x.Contacts)
+                .WithForm(x =>
+                {
+                    x.TextAreaField(x => x.City)
+                    .Label("City")
+                    .WithValidation(x => x.MaxLength(100));
+
+                    x.TextField(x => x.Address)
+                        .Label("Address");
+
+                    x.Select(x => x.State)
+                        .AddOptions(new string[] { "Lagos", "Abuja" });
+                })
+                .Label("Contacts");
         }
     }
 }

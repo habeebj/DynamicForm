@@ -4,7 +4,7 @@ using DynamicForm.Utilities;
 
 namespace DynamicForm
 {
-    public class InputBuilder<TModel, TProperty> : InputBuilder, IInputBuilder<TModel, TProperty>, IOptionBuilder<TModel, TProperty>
+    public class InputBuilder<TModel, TProperty> : InputBuilder, IInputBuilder<TModel, TProperty>, IOptionBuilder<TModel, TProperty>, IFormInputBuilder<TModel, TProperty> where TProperty : notnull
     {
         public InputBuilder(string id, string type)
         {
@@ -82,6 +82,14 @@ namespace DynamicForm
             var properties = GetProperties(memberExpression);
 
             return (InputBuilder<TModel, TProperty>)base.RemoteValidation(method.ToString(), url, properties, null);
+        }
+
+        public IInputBuilder<TModel, TProperty> WithForm(Action<IFormBuilder<TProperty>> action)
+        {
+            var formBuilder = new FormBuilder<TProperty>();
+            action.Invoke(formBuilder);
+            
+            return (InputBuilder<TModel, TProperty>)base.Form(formBuilder.Build());
         }
     }
 }

@@ -3,7 +3,7 @@ using DynamicForm.Interfaces;
 
 namespace DynamicForm
 {
-    public class FormBuilder<TModel> : FormBuilder, IFormBuilder<TModel> where TModel : class
+    public class FormBuilder<TModel> : FormBuilder, IFormBuilder<TModel> where TModel : notnull
     {
         public IInputBuilder<TModel, TProperty> Property<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression, InputType inputType = InputType.Text)
         {
@@ -61,6 +61,14 @@ namespace DynamicForm
         public IOptionBuilder<TModel, TProperty> Select<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression)
         {
             return (IOptionBuilder<TModel, TProperty>)Property(propertyExpression, InputType.Select);
+        }
+
+        public IFormInputBuilder<TModel, TProperty> FormInput<TProperty>(Expression<Func<TModel, IEnumerable<TProperty>>> propertyExpression) where TProperty : class
+        {
+            var propertyName = ((MemberExpression)propertyExpression.Body)?.Member.Name;
+            ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
+
+            return (IFormInputBuilder<TModel, TProperty>)Property<TProperty>(propertyName, InputType.Form);
         }
     }
 }
