@@ -86,9 +86,9 @@ public static IInputValidator<int> AllowNegative(this IInputValidator<int> valid
   - DynamicFormOptions
   - DynamicFormService
   - Extensions ✅
-- Select Option with Name Value pair
+- Select Option with Name Value pair ✅
 - Customizable key for all properties
-- Display property
+- Display property ✅
 - Additional properties for form and form collections ✅
 - ASP Core library to expose form endpoint ✅
 

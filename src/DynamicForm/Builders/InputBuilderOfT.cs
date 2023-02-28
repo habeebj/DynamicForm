@@ -69,7 +69,7 @@ namespace DynamicForm
             return (IInputBuilder<TModel, TProperty>)base.DependsOn(properties);
         }
 
-        public IInputBuilder<TModel, TProperty> AddOptions(IEnumerable<string> options)
+        public IInputBuilder<TModel, TProperty> AddOptions(IEnumerable<Option> options)
             => (IInputBuilder<TModel, TProperty>)base.Options(options);
 
         public new IInputBuilder<TModel, TProperty> Label(string label)

@@ -49,14 +49,14 @@ namespace DynamicForm.Tests
             ((string[])actual[Keys.DEPENDS_ON]).Should().HaveCount(1);
             ((string[])actual[Keys.DEPENDS_ON]).Should().Contain(nameof(User.Email));
         }
-        
+
         [Fact]
         public void OptionBuilder_WithOptions_ShouldBeSuccessful()
         {
             var labelKey = "label";
             var optionsKey = "options";
             var label = "First Name";
-            var options = new[] { "A", "B", "C" };
+            var options = new Option[] { new Option("1", "A"), new Option("2", "B"), new Option("3", "C") };
 
             IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.AddOptions(options).Label(label);

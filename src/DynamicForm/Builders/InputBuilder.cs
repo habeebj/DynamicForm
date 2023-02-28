@@ -31,7 +31,7 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder Options(IEnumerable<string> options)
+        protected InputBuilder Options(IEnumerable<Option> options)
         {
             _content[Keys.OPTIONS] = options;
             return this;
