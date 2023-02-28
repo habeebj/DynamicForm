@@ -67,10 +67,17 @@ namespace DynamicForm
             _content[Keys.DEPENDS_ON] = properties;
             return this;
         }
-        
+
         protected InputBuilder Disabled()
         {
             _content[Keys.DISABLED] = true;
+            return this;
+        }
+
+        protected InputBuilder Disabled(string id, string key)
+        {
+            _content[Keys.DISABLED] = true;
+            _content[Keys.LOOKUP] = new { Id = id, Key = key };
             return this;
         }
 

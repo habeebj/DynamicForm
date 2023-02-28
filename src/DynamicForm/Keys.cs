@@ -7,6 +7,7 @@ namespace DynamicForm
         public const string FORM = "form";
         public const string FORM_INPUTS = "form_inputs";
         public const string DISPLAY = "display";
+        public const string LOOKUP = "lookup";
         public const string LABEL = "label";
         public const string OPTIONS = "options";
         public const string PULL_URL = "pullUrl";

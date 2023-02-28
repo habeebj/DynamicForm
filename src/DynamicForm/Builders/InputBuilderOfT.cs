@@ -44,15 +44,14 @@ namespace DynamicForm
         /// <param name="uriString"></param>
         /// <param name="property">dot separated example: responseObject.results</param>
         /// <returns></returns>
-        public IInputBuilder<TModel, TProperty> WithUrl(string uriString, string property)
+        public IInputBuilder<TModel, TProperty> WithUrl(string uriString, string? property = null)
         {
             if (!Uri.IsWellFormedUriString(uriString, UriKind.RelativeOrAbsolute))
             {
                 throw new ArgumentException("Invalid URI string");
             }
 
-            ArgumentNullException.ThrowIfNullOrEmpty(property);
-            return (InputBuilder<TModel, TProperty>)base.SetData(uriString, property.Split('.'));
+            return (InputBuilder<TModel, TProperty>)base.SetData(uriString, property?.Split('.') ?? new string[] { });
         }
 
         public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression)
@@ -76,6 +75,13 @@ namespace DynamicForm
             => (InputBuilder<TModel, TProperty>)base.Label(label);
 
         public new IInputBuilder<TModel, TProperty> Disabled() => (InputBuilder<TModel, TProperty>)base.Disabled();
+
+        public IInputBuilder<TModel, TProperty> Disabled<TResponse>(Expression<Func<TModel, TProperty>> idExpression, Expression<Func<TResponse, TProperty>> keyExpression)
+        {
+            string idProperty = (idExpression.Body as MemberExpression)!.Member.Name;
+            string keyProperty = (keyExpression.Body as MemberExpression)!.Member.Name;
+            return (InputBuilder<TModel, TProperty>)base.Disabled(idProperty, keyProperty);
+        }
 
         public new IInputBuilder<TModel, TProperty> Placeholder(string placeholder)
             => (InputBuilder<TModel, TProperty>)base.Placeholder(placeholder);
