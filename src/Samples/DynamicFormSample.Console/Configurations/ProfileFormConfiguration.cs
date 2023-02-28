@@ -43,7 +43,7 @@ namespace Sample.Configurations
 
                     x.Select(x => x.State)
                         .AddOptions(new string[] { "Lagos", "Abuja" });
-                })
+                }, x => x.Address, x => x.City)
                 .Label("Contacts");
         }
     }

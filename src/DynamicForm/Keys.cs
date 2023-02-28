@@ -5,6 +5,8 @@ namespace DynamicForm
         public const string ID = "id";
         public const string TYPE = "type";
         public const string FORM = "form";
+        public const string FORM_INPUTS = "form_inputs";
+        public const string DISPLAY = "display";
         public const string LABEL = "label";
         public const string OPTIONS = "options";
         public const string PULL_URL = "pullUrl";
@@ -14,6 +16,7 @@ namespace DynamicForm
         public const string SELECT_DATA_ACCESSOR = "selectDataAccessor";
         public const string DATA_ACCESSOR = "dataAccessor";
         public const string PLACEHOLDER = "placeholder";
+        public const string DISABLED = "disabled";
         public const string DEPENDS_ON = "depends_on";
         public const string VALIDATION = "validation";
         public const string FORMS = "forms";

@@ -67,15 +67,25 @@ namespace DynamicForm
             _content[Keys.DEPENDS_ON] = properties;
             return this;
         }
+        
+        protected InputBuilder Disabled()
+        {
+            _content[Keys.DISABLED] = true;
+            return this;
+        }
 
         public void Set(string key, object value)
         {
             _content[key] = value;
         }
 
-        protected InputBuilder Form(Dictionary<string, object> form)
+        protected InputBuilder Form(Dictionary<string, object> form, string[] displayProperties)
         {
-            _content[Keys.FORM] = form[Keys.FORM];
+            _content[Keys.FORM] = new Dictionary<string, object> { { Keys.FORM_INPUTS, form[Keys.FORM] } };
+            if (displayProperties.Length > 0)
+            {
+                _content[Keys.DISPLAY] = displayProperties;
+            }
             return this;
         }
 

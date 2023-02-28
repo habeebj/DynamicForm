@@ -4,6 +4,7 @@ namespace DynamicForm.Interfaces
 {
     public interface IInputBuilder<TModel, TProperty>
     {
+        IInputBuilder<TModel, TProperty> Disabled();
         IInputBuilder<TModel, TProperty> Label(string label);
 
         IInputBuilder<TModel, TProperty> Placeholder(string placeholder);

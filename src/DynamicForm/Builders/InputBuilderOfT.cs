@@ -6,6 +6,32 @@ namespace DynamicForm
 {
     public class InputBuilder<TModel, TProperty> : InputBuilder, IInputBuilder<TModel, TProperty>, IOptionBuilder<TModel, TProperty>, IFormInputBuilder<TModel, TProperty> where TProperty : notnull
     {
+        private static string[] GetProperties(MemberExpression? memberExpression)
+        {
+            var properties = new List<string>();
+            while (memberExpression != null)
+            {
+                properties.Add(memberExpression.Member.Name);
+                memberExpression = memberExpression.Expression as MemberExpression;
+            }
+
+            return properties.ToArray();
+        }
+
+        private static string[] GetProperties(MemberExpression[]? memberExpressions)
+        {
+            var properties = new List<string>();
+            memberExpressions = memberExpressions ?? new MemberExpression[] { };
+
+            foreach (var expression in memberExpressions)
+            {
+                var propertyName = expression.Member.Name;
+                properties.Add(propertyName);
+            }
+
+            return properties.ToArray();
+        }
+
         public InputBuilder(string id, string type)
         {
             base.Type(type.ToLower());
@@ -36,28 +62,11 @@ namespace DynamicForm
             return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties);
         }
 
-        private static string[] GetProperties(MemberExpression? memberExpression)
-        {
-            var properties = new List<string>();
-            while (memberExpression != null)
-            {
-                properties.Add(memberExpression.Member.Name);
-                memberExpression = memberExpression.Expression as MemberExpression;
-            }
-
-            return properties.ToArray();
-        }
-
         public IInputBuilder<TModel, TProperty> DependsOn(params Expression<Func<TModel, TProperty>>[] propertyExpressions)
         {
-            var properties = new List<string>();
-            foreach (var expression in propertyExpressions)
-            {
-                var propertyName = ((MemberExpression)expression.Body).Member.Name;
-                properties.Add(propertyName);
-            }
-
-            return (IInputBuilder<TModel, TProperty>)base.DependsOn(properties.ToArray());
+            var memberExpressions = propertyExpressions.Select(x => ((MemberExpression)x.Body));
+            var properties = GetProperties(memberExpressions?.ToArray());
+            return (IInputBuilder<TModel, TProperty>)base.DependsOn(properties);
         }
 
         public IInputBuilder<TModel, TProperty> AddOptions(IEnumerable<string> options)
@@ -65,6 +74,8 @@ namespace DynamicForm
 
         public new IInputBuilder<TModel, TProperty> Label(string label)
             => (InputBuilder<TModel, TProperty>)base.Label(label);
+
+        public new IInputBuilder<TModel, TProperty> Disabled() => (InputBuilder<TModel, TProperty>)base.Disabled();
 
         public new IInputBuilder<TModel, TProperty> Placeholder(string placeholder)
             => (InputBuilder<TModel, TProperty>)base.Placeholder(placeholder);
@@ -84,12 +95,13 @@ namespace DynamicForm
             return (InputBuilder<TModel, TProperty>)base.RemoteValidation(method.ToString(), url, properties, null);
         }
 
-        public IInputBuilder<TModel, TProperty> WithForm(Action<IFormBuilder<TProperty>> action)
+        public IInputBuilder<TModel, TProperty> WithForm(Action<IFormBuilder<TProperty>> action, params Expression<Func<TProperty, object>>[] displayExpression)
         {
             var formBuilder = new FormBuilder<TProperty>();
             action.Invoke(formBuilder);
-            
-            return (InputBuilder<TModel, TProperty>)base.Form(formBuilder.Build());
+            var memberExpressions = displayExpression.Select(x => ((MemberExpression)x.Body));
+            var properties = GetProperties(memberExpressions?.ToArray());
+            return (InputBuilder<TModel, TProperty>)base.Form(formBuilder.Build(), properties);
         }
     }
 }
