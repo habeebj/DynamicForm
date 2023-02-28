@@ -3,40 +3,40 @@ using System.Reflection;
 namespace DynamicForm.AspCore.Options;
 public class DynamicFormOptions
 {
-    public List<FormContext> formContexts { internal get; set; } = new();
+    public List<FormCollection> formCollections { internal get; set; } = new();
 
-    public void AddContext<T>() where T : FormContext
+    public void AddCollection<T>() where T : FormCollection
     {
-        formContexts.Add(Activator.CreateInstance<T>());
+        formCollections.Add(Activator.CreateInstance<T>());
     }
 
-    public void AddContext<T>(T type) where T : FormContext
+    public void AddCollection<T>(T type) where T : FormCollection
     {
-        AddContext(type);
+        AddCollection(type);
     }
 
-    private void AddContext(Type type)
+    private void AddCollection(Type type)
     {
-        if (Activator.CreateInstance(type) is FormContext formContext)
+        if (Activator.CreateInstance(type) is FormCollection formContext)
         {
-            formContexts.Add(formContext);
+            formCollections.Add(formContext);
         }
     }
 
-    public void AddContextFromAssembly(Assembly assembly)
+    public void AddCollectionFromAssembly(Assembly assembly)
     {
-        var types = assembly.GetTypes().Where(x => x.IsAssignableTo(typeof(FormContext)));
+        var types = assembly.GetTypes().Where(x => x.IsAssignableTo(typeof(FormCollection)));
         foreach (var type in types)
         {
-            AddContext(type);
+            AddCollection(type);
         }
     }
 
-    public void AddContextFromAssembly(IEnumerable<Assembly> assemblies)
+    public void AddCollectionFromAssembly(params Assembly[] assemblies)
     {
         foreach (var assembly in assemblies)
         {
-            AddContextFromAssembly(assembly);
+            AddCollectionFromAssembly(assembly);
         }
     }
 }

@@ -1,8 +1,8 @@
 using DynamicForm;
 
-namespace DynamicFormSample.AspCore.FormContexts
+namespace DynamicFormSample.AspCore.FormCollections
 {
-    public class LoginContext : FormContext
+    public class LoginFormCollection : DynamicForm.FormCollection
     {
         protected override void OnFormCreating(FormCollectionBuilder formBuilder)
         {

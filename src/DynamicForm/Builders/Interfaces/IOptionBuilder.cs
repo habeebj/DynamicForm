@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
 namespace DynamicForm.Interfaces;
-public interface IOptionBuilder<TProperty>
+public interface IOptionBuilder<TModel, TProperty>
 {
-    IInputBuilder<TProperty> WithUrl(string uriString, string property);
-    IInputBuilder<TProperty> AddOptions(IEnumerable<string> options);
-    IInputBuilder<TProperty> WithUrl<TModel>(Uri uri, Expression<Func<TModel, IEnumerable<object>>> selectExpression);
+    IInputBuilder<TModel, TProperty> WithUrl(string uriString, string? property = null);
+    IInputBuilder<TModel, TProperty> AddOptions(IEnumerable<Option> options);
+    IInputBuilder<TModel, TProperty> WithUrl<TResponseModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression);
 }

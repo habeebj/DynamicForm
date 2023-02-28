@@ -7,7 +7,6 @@ namespace DynamicForm.Tests
     {
         public static string[] Interests = new[] { "Reading", "Sleeping" };
     }
-
     public class User
     {
         public int Age { get; set; }
@@ -15,6 +14,7 @@ namespace DynamicForm.Tests
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string Biography { get; set; } = null!;
+        public List<Contact> Contacts { get; set; } = new();
         public IEnumerable<string> Interests = new List<string> { "test..." };
     }
 }

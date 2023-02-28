@@ -1,12 +1,19 @@
+using System.Linq.Expressions;
+
 namespace DynamicForm.Interfaces
 {
-    public interface IInputBuilder<TProperty>
+    public interface IInputBuilder<TModel, TProperty>
     {
-        IInputBuilder<TProperty> Label(string label);
+        IInputBuilder<TModel, TProperty> Disabled();
+        IInputBuilder<TModel, TProperty> Disabled<TResponse>(Expression<Func<TModel, TProperty>> idExpression, Expression<Func<TResponse, TProperty>> keyExpression);
+        IInputBuilder<TModel, TProperty> Label(string label);
 
-        IInputBuilder<TProperty> Placeholder(string placeholder);
+        IInputBuilder<TModel, TProperty> Placeholder(string placeholder);
 
-        IInputBuilder<TProperty> WithValidation(Func<IInputValidator<TProperty>, IInputValidator<TProperty>> validation);
+        IInputBuilder<TModel, TProperty> DependsOn(params Expression<Func<TModel, TProperty>>[] propertyExpressions);
+
+        IInputBuilder<TModel, TProperty> WithValidation(Func<IInputValidator<TProperty>, IInputValidator<TProperty>> validation);
+        IInputBuilder<TModel, TProperty> RemoteValidation<TResponseModel>(HttpMethod method, string url, Expression<Func<TResponseModel, object>> dataAccessor);
     }
 
     // public interface IPropertyBuilder<TProperty>

@@ -6,6 +6,32 @@ namespace DynamicForm.Tests
     public class FormBuilderTests
     {
         [Fact]
+        public void CreateForm_WithForm_ShouldBeSuccessful()
+        {
+            IFormBuilder<User> userFormBuilder = new FormBuilder<User>();
+
+            userFormBuilder.FormInput(x => x.Contacts)
+                .WithForm(x =>
+                {
+                    x.TextAreaField(x => x.City)
+                    .Label("");
+
+                    x.TextField(x => x.Address)
+                        .Label("Address");
+                })
+                .Label("Contacts");
+
+            var act = ((IBuilder)userFormBuilder).Build();
+            // var formInputs = (act[Keys.FORM] as IEnumerable<Dictionary<string, object>>)!.ToList();
+            // var emailInput = formInputs[0];
+
+            // act.Should().ContainKey(Keys.FORM);
+            // emailInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
+            // (emailInput[Keys.ID] as string).Should().Be(nameof(User.Name));
+            // (emailInput[Keys.TYPE] as string).Should().Be(InputType.Text.ToString().ToLower());
+        }
+
+        [Fact]
         public void CreatePrimitiveField_ShouldBeSuccessful()
         {
             IFormBuilder<User> userFormBuilder = new FormBuilder<User>();

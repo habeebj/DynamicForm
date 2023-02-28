@@ -17,12 +17,21 @@ namespace Sample.Configurations
                 .EmailField(x => x.Email)
                 .Label("Email Address")
                 .Placeholder("Enter Email address")
+                .DependsOn(x => x.Name)
+                .RemoteValidation<Person>(HttpMethod.Get, "http://api.co/?email{Email}", x => x.Name)
                 .WithValidation(x => x.Required());
 
             builder
                 .PasswordField(x => x.Password)
                 .Label("Password")
                 .WithValidation(x => x.MinLength(10));
+
+            builder
+                .PasswordField(x => x.Password)
+                .DependsOn(x => x.Email, x => x.Name)
+                .Label("Confirm Password");
         }
     }
+
+    public record Person(string Name);
 }

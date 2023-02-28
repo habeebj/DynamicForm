@@ -13,9 +13,9 @@ namespace DynamicForm
             return _content;
         }
 
-        public IInputBuilder<TProperty> Property<TProperty>(string propertyName, string inputType, Dictionary<string, object>? additionalAttributes = default)
+        public IInputBuilder<TModel, TProperty> Property<TModel, TProperty>(string propertyName, string inputType, Dictionary<string, object>? additionalAttributes = null)
         {
-            var inputBuilder = new InputBuilder<TProperty>(propertyName, inputType);
+            var inputBuilder = new InputBuilder<TModel, TProperty>(propertyName, inputType);
 
             if (additionalAttributes != null)
             {

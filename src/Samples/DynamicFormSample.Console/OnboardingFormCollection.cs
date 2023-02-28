@@ -3,7 +3,7 @@ using Sample.Configurations;
 
 namespace Sample
 {
-    public class OnboardingFormContext : FormContext
+    public class OnboardingFormCollection : FormCollection
     {
         protected override void Setup()
         {

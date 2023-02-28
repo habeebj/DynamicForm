@@ -8,12 +8,12 @@ namespace DynamicForm.Tests
         [Fact]
         public void InputBuilderConstructor_ValidInput_ShouldBeSuccessful()
         {
-            var idKey = "id";
-            var typeKey = "type";
+            var idKey = Keys.ID;
+            var typeKey = Keys.TYPE;
             var id = "name";
             var type = InputType.Text.ToString();
 
-            var builder = new InputBuilder<User>(id, type);
+            var builder = new InputBuilder<User, object>(id, type);
             var actual = builder.Build();
 
             actual.Should().ContainKeys(idKey, typeKey);
@@ -24,12 +24,12 @@ namespace DynamicForm.Tests
         [Fact]
         public void InputBuilder_WithValidAttributes_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var placeholderKey = "placeholder";
+            var labelKey = Keys.LABEL;
+            var placeholderKey = Keys.PLACEHOLDER;
             var label = "First Name";
             var placeholder = "Enter First Name";
 
-            IInputBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IInputBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.Label(label).Placeholder(placeholder);
             var actual = ((IBuilder)builder).Build();
 
@@ -39,14 +39,26 @@ namespace DynamicForm.Tests
         }
 
         [Fact]
+        public void InputBuilder_DependsOn_ShouldBeSuccessful()
+        {
+            IInputBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
+            builder.DependsOn(x => x.Email);
+            var actual = ((IBuilder)builder).Build();
+
+            actual.Should().ContainKeys(Keys.DEPENDS_ON);
+            ((string[])actual[Keys.DEPENDS_ON]).Should().HaveCount(1);
+            ((string[])actual[Keys.DEPENDS_ON]).Should().Contain(nameof(User.Email));
+        }
+
+        [Fact]
         public void OptionBuilder_WithOptions_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var optionsKey = "options";
+            var labelKey = Keys.LABEL;
+            var optionsKey = Keys.OPTIONS;
             var label = "First Name";
-            var options = new[] { "A", "B", "C" };
+            var options = new Option[] { new Option("1", "A"), new Option("2", "B"), new Option("3", "C") };
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.AddOptions(options).Label(label);
             var actual = ((IBuilder)builder).Build();
 
@@ -58,13 +70,13 @@ namespace DynamicForm.Tests
         [Fact]
         public void OptionBuilder_WithValidUrlString_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var pullUrlKey = "pullUrl";
-            var selectDataAccessorKey = "selectDataAccessor";
+            var labelKey = Keys.LABEL;
+            var pullUrlKey = Keys.PULL_URL;
+            var selectDataAccessorKey = Keys.SELECT_DATA_ACCESSOR;
             var label = "First Name";
             var url = "http://api.example.com/users";
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.WithUrl(url, "data.result").Label(label);
             var actual = ((IBuilder)builder).Build();
 
@@ -77,20 +89,20 @@ namespace DynamicForm.Tests
         [Fact]
         public void OptionBuilder_WithValidUrl_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var pullUrlKey = "pullUrl";
-            var selectDataAccessorKey = "selectDataAccessor";
+            var labelKey = Keys.LABEL;
+            var pullUrlKey = Keys.PULL_URL;
+            var selectDataAccessorKey = Keys.SELECT_DATA_ACCESSOR;
             var label = "First Name";
             Uri.TryCreate("http://api.example.com/users", UriKind.RelativeOrAbsolute, out Uri? url);
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
             builder.WithUrl<Response<User[]>>(url!, x => x.Data).Label(label);
             var actual = ((IBuilder)builder).Build();
 
             actual.Should().ContainKeys(pullUrlKey, selectDataAccessorKey, labelKey);
             actual[labelKey].Should().Be(label);
             actual[pullUrlKey].Should().Be(url!.ToString());
-            (actual[selectDataAccessorKey] as List<string>).Should().ContainSingle("Data");
+            (actual[selectDataAccessorKey] as string[]).Should().ContainSingle("Data");
         }
 
         [Fact]
@@ -98,7 +110,7 @@ namespace DynamicForm.Tests
         {
             var url = "http:api.example .com/users";
 
-            IOptionBuilder<User> builder = new InputBuilder<User>(Keys.NAME, InputType.Text.ToString());
+            IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
 
             Action act = () => builder.WithUrl(url, "data.result");
             act.Should().Throw<ArgumentException>().WithMessage("Invalid URI string");

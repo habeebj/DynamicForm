@@ -31,7 +31,7 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder Options(IEnumerable<string> options)
+        protected InputBuilder Options(IEnumerable<Option> options)
         {
             _content[Keys.OPTIONS] = options;
             return this;
@@ -50,9 +50,50 @@ namespace DynamicForm
             return this;
         }
 
+        protected InputBuilder RemoteValidation(string httpMethod, string urlPattern, string[] dataAccessor, object[] destinationKey)
+        {
+            var content = new Dictionary<string, object>{
+                {Keys.METHOD, httpMethod},
+                {Keys.URL, urlPattern},
+                {Keys.DATA_ACCESSOR, dataAccessor},
+                // {Keys.METHOD, httpMethod},
+            };
+            _content[Keys.REMOTE_VALIDATION] = content;
+            return this;
+        }
+
+        protected InputBuilder DependsOn(string[] properties)
+        {
+            _content[Keys.DEPENDS_ON] = properties;
+            return this;
+        }
+
+        protected InputBuilder Disabled()
+        {
+            _content[Keys.DISABLED] = true;
+            return this;
+        }
+
+        protected InputBuilder Disabled(string id, string key)
+        {
+            _content[Keys.DISABLED] = true;
+            _content[Keys.LOOKUP] = new { Id = id, Key = key };
+            return this;
+        }
+
         public void Set(string key, object value)
         {
             _content[key] = value;
+        }
+
+        protected InputBuilder Form(Dictionary<string, object> form, string[] displayProperties)
+        {
+            _content[Keys.FORM] = new Dictionary<string, object> { { Keys.FORM_INPUTS, form[Keys.FORM] } };
+            if (displayProperties.Length > 0)
+            {
+                _content[Keys.DISPLAY] = displayProperties;
+            }
+            return this;
         }
 
         protected InputBuilder Validation(string validationType, Dictionary<string, object> validations)
