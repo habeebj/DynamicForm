@@ -8,8 +8,8 @@ namespace DynamicForm.Tests
         [Fact]
         public void InputBuilderConstructor_ValidInput_ShouldBeSuccessful()
         {
-            var idKey = "id";
-            var typeKey = "type";
+            var idKey = Keys.ID;
+            var typeKey = Keys.TYPE;
             var id = "name";
             var type = InputType.Text.ToString();
 
@@ -24,8 +24,8 @@ namespace DynamicForm.Tests
         [Fact]
         public void InputBuilder_WithValidAttributes_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var placeholderKey = "placeholder";
+            var labelKey = Keys.LABEL;
+            var placeholderKey = Keys.PLACEHOLDER;
             var label = "First Name";
             var placeholder = "Enter First Name";
 
@@ -53,8 +53,8 @@ namespace DynamicForm.Tests
         [Fact]
         public void OptionBuilder_WithOptions_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var optionsKey = "options";
+            var labelKey = Keys.LABEL;
+            var optionsKey = Keys.OPTIONS;
             var label = "First Name";
             var options = new Option[] { new Option("1", "A"), new Option("2", "B"), new Option("3", "C") };
 
@@ -70,9 +70,9 @@ namespace DynamicForm.Tests
         [Fact]
         public void OptionBuilder_WithValidUrlString_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var pullUrlKey = "pullUrl";
-            var selectDataAccessorKey = "selectDataAccessor";
+            var labelKey = Keys.LABEL;
+            var pullUrlKey = Keys.PULL_URL;
+            var selectDataAccessorKey = Keys.SELECT_DATA_ACCESSOR;
             var label = "First Name";
             var url = "http://api.example.com/users";
 
@@ -89,9 +89,9 @@ namespace DynamicForm.Tests
         [Fact]
         public void OptionBuilder_WithValidUrl_ShouldBeSuccessful()
         {
-            var labelKey = "label";
-            var pullUrlKey = "pullUrl";
-            var selectDataAccessorKey = "selectDataAccessor";
+            var labelKey = Keys.LABEL;
+            var pullUrlKey = Keys.PULL_URL;
+            var selectDataAccessorKey = Keys.SELECT_DATA_ACCESSOR;
             var label = "First Name";
             Uri.TryCreate("http://api.example.com/users", UriKind.RelativeOrAbsolute, out Uri? url);
 
@@ -102,7 +102,7 @@ namespace DynamicForm.Tests
             actual.Should().ContainKeys(pullUrlKey, selectDataAccessorKey, labelKey);
             actual[labelKey].Should().Be(label);
             actual[pullUrlKey].Should().Be(url!.ToString());
-            (actual[selectDataAccessorKey] as List<string>).Should().ContainSingle("Data");
+            (actual[selectDataAccessorKey] as string[]).Should().ContainSingle("Data");
         }
 
         [Fact]
