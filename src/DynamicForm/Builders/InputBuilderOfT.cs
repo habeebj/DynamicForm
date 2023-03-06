@@ -6,13 +6,52 @@ namespace DynamicForm
 {
     public class InputBuilder<TModel, TProperty> : InputBuilder, IInputBuilder<TModel, TProperty>, IOptionBuilder<TModel, TProperty>, IFormInputBuilder<TModel, TProperty> where TProperty : notnull
     {
-        private static string[] GetProperties(MemberExpression? memberExpression)
+        private static string[] GetRecursiveProperties(LambdaExpression expression)
         {
             var properties = new List<string>();
+            var memberExpression = GetMemberExpression(expression);
             while (memberExpression != null)
             {
-                properties.Add(memberExpression.Member.Name);
-                memberExpression = memberExpression.Expression as MemberExpression;
+                var propertyName = memberExpression?.Member.Name;
+                if (!string.IsNullOrEmpty(propertyName))
+                {
+                    properties.Add(propertyName);
+                }
+                memberExpression = memberExpression?.Expression as MemberExpression;
+            }
+
+            return properties.ToArray();
+        }
+
+        private static MemberExpression? GetMemberExpression(LambdaExpression expression)
+        {
+            MemberExpression? memberExpression = null;
+            switch (expression.Body)
+            {
+                case MemberExpression:
+                    memberExpression = (expression.Body as MemberExpression);
+                    break;
+                case UnaryExpression:
+                    memberExpression = ((expression.Body as UnaryExpression)?.Operand as MemberExpression);
+                    break;
+                default:
+                    break;
+            }
+
+            return memberExpression;
+        }
+
+        private static string[] GetProperties(LambdaExpression[]? expressions)
+        {
+            var properties = new List<string>();
+            expressions = expressions ?? new LambdaExpression[] { };
+            foreach (var expression in expressions)
+            {
+                var propertyName = GetMemberExpression(expression)?.Member?.Name;
+                if (!string.IsNullOrEmpty(propertyName))
+                {
+                    properties.Add(propertyName);
+                }
             }
 
             return properties.ToArray();
@@ -44,27 +83,27 @@ namespace DynamicForm
         /// <param name="uriString"></param>
         /// <param name="property">dot separated example: responseObject.results</param>
         /// <returns></returns>
-        public IInputBuilder<TModel, TProperty> WithUrl(string uriString, string? property = null)
+        public IInputBuilder<TModel, TProperty> WithUrl(string uriString, string? property = null, string selectKey = "name")
         {
             if (!Uri.IsWellFormedUriString(uriString, UriKind.RelativeOrAbsolute))
             {
                 throw new ArgumentException("Invalid URI string");
             }
 
-            return (InputBuilder<TModel, TProperty>)base.SetData(uriString, property?.Split('.') ?? new string[] { });
+            return (InputBuilder<TModel, TProperty>)base.SetData(uriString, property?.Split('.') ?? new string[] { }, selectKey);
         }
 
-        public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression)
+        public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel, TSelectKeyModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression,
+            Expression<Func<TSelectKeyModel, object>>? selectKey = null)
         {
-            var memberExpression = selectExpression.Body as MemberExpression;
-            var properties = GetProperties(memberExpression);
-            return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties);
+            var properties = GetRecursiveProperties(selectExpression);
+            var selectKeyProperty = (selectKey?.Body as MemberExpression)?.Member.Name;
+            return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties, selectKeyProperty);
         }
 
-        public IInputBuilder<TModel, TProperty> DependsOn(params Expression<Func<TModel, TProperty>>[] propertyExpressions)
+        public IInputBuilder<TModel, TProperty> DependsOn(params Expression<Func<TModel, object>>[] propertyExpressions)
         {
-            var memberExpressions = propertyExpressions.Select(x => ((MemberExpression)x.Body));
-            var properties = GetProperties(memberExpressions?.ToArray());
+            var properties = GetProperties(propertyExpressions);
             return (IInputBuilder<TModel, TProperty>)base.DependsOn(properties);
         }
 
@@ -95,18 +134,15 @@ namespace DynamicForm
 
         public IInputBuilder<TModel, TProperty> RemoteValidation<TResponseModel>(HttpMethod method, string url, Expression<Func<TResponseModel, object>> dataAccessor)
         {
-            var memberExpression = dataAccessor.Body as MemberExpression;
-            var properties = GetProperties(memberExpression);
-
-            return (InputBuilder<TModel, TProperty>)base.RemoteValidation(method.ToString(), url, properties, null);
+            var properties = GetRecursiveProperties(dataAccessor);
+            return (InputBuilder<TModel, TProperty>)base.RemoteValidation(method.ToString(), url, properties);
         }
 
         public IInputBuilder<TModel, TProperty> WithForm(Action<IFormBuilder<TProperty>> action, params Expression<Func<TProperty, object>>[] displayExpression)
         {
             var formBuilder = new FormBuilder<TProperty>();
             action.Invoke(formBuilder);
-            var memberExpressions = displayExpression.Select(x => ((MemberExpression)x.Body));
-            var properties = GetProperties(memberExpressions?.ToArray());
+            var properties = GetProperties(displayExpression);
             return (InputBuilder<TModel, TProperty>)base.Form(formBuilder.Build(), properties);
         }
     }

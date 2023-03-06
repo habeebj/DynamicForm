@@ -37,10 +37,11 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder SetData(string uri, IEnumerable<string> dataPath)
+        protected InputBuilder SetData(string uri, IEnumerable<string> dataPath, string? selectKey)
         {
             _content[Keys.PULL_URL] = uri;
             _content[Keys.SELECT_DATA_ACCESSOR] = dataPath;
+            _content[Keys.SELECT_KEY] = selectKey?.ToLower() ?? "name";
             return this;
         }
 
@@ -50,7 +51,7 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder RemoteValidation(string httpMethod, string urlPattern, string[] dataAccessor, object[] destinationKey)
+        protected InputBuilder RemoteValidation(string httpMethod, string urlPattern, string[] dataAccessor)
         {
             var content = new Dictionary<string, object>{
                 {Keys.METHOD, httpMethod},
