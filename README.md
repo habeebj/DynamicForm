@@ -91,5 +91,8 @@ public static IInputValidator<int> AllowNegative(this IInputValidator<int> valid
 - Display property ✅
 - Additional properties for form and form collections ✅
 - ASP Core library to expose form endpoint ✅
+- Conditional Validation
+- Conditional Display
+- Lookup
 
 [Proof Of Concept](https://hackmd.io/ANY0TF8wT-ape0LOASalvQ)

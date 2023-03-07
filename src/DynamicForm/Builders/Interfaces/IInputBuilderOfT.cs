@@ -2,10 +2,10 @@ using System.Linq.Expressions;
 
 namespace DynamicForm.Interfaces
 {
-    public interface IInputBuilder<TModel, TProperty>
+    public interface IInputBuilder<TModel, TProperty> where TProperty : notnull
     {
         IInputBuilder<TModel, TProperty> Disabled();
-        IInputBuilder<TModel, TProperty> Disabled<TResponse>(Expression<Func<TModel, TProperty>> idExpression, Expression<Func<TResponse, TProperty>> keyExpression);
+        IInputBuilder<TModel, TProperty> Lookup<TResponse>(Expression<Func<TModel, TProperty>> idExpression, Expression<Func<TResponse, TProperty>> keyExpression);
         IInputBuilder<TModel, TProperty> Label(string label);
 
         IInputBuilder<TModel, TProperty> Placeholder(string placeholder);

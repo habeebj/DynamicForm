@@ -115,11 +115,11 @@ namespace DynamicForm
 
         public new IInputBuilder<TModel, TProperty> Disabled() => (InputBuilder<TModel, TProperty>)base.Disabled();
 
-        public IInputBuilder<TModel, TProperty> Disabled<TResponse>(Expression<Func<TModel, TProperty>> idExpression, Expression<Func<TResponse, TProperty>> keyExpression)
+        public IInputBuilder<TModel, TProperty> Lookup<TResponse>(Expression<Func<TModel, TProperty>> idExpression, Expression<Func<TResponse, TProperty>> keyExpression)
         {
             string idProperty = (idExpression.Body as MemberExpression)!.Member.Name;
             string keyProperty = (keyExpression.Body as MemberExpression)!.Member.Name;
-            return (InputBuilder<TModel, TProperty>)base.Disabled(idProperty, keyProperty);
+            return (InputBuilder<TModel, TProperty>)base.Lookup(idProperty, keyProperty);
         }
 
         public new IInputBuilder<TModel, TProperty> Placeholder(string placeholder)
@@ -144,6 +144,13 @@ namespace DynamicForm
             action.Invoke(formBuilder);
             var properties = GetProperties(displayExpression);
             return (InputBuilder<TModel, TProperty>)base.Form(formBuilder.Build(), properties);
+        }
+
+        public IOptionBuilder<TModel, TProperty> WithCreateForm<T>(IFormConfiguration<T> formConfiguration) where T : class
+        {
+            var builder = new FormBuilder<T>();
+            formConfiguration.Configure(builder);
+            return (InputBuilder<TModel, TProperty>)base.AddForm(builder.Build());
         }
     }
 }

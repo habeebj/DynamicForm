@@ -75,9 +75,8 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder Disabled(string id, string key)
+        protected InputBuilder Lookup(string id, string key)
         {
-            _content[Keys.DISABLED] = true;
             _content[Keys.LOOKUP] = new { Id = id, Key = key };
             return this;
         }
@@ -94,6 +93,14 @@ namespace DynamicForm
             {
                 _content[Keys.DISPLAY] = displayProperties;
             }
+            return this;
+        }
+
+        protected InputBuilder AddForm(Dictionary<string, object> form)
+        {
+            var selectInputType = InputType.Select.ToString().ToLower();
+            _content[Keys.TYPE] = $"{selectInputType}-add";
+            _content[Keys.FORM] = form;
             return this;
         }
 
