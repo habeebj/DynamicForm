@@ -5,8 +5,10 @@ namespace DynamicForm
         public const string ID = "id";
         public const string TYPE = "type";
         public const string FORM = "form";
-        public const string FORM_INPUTS = "form_inputs";
+        public const string FORM_INPUTS = "form";
         public const string DISPLAY = "display";
+        public const string SKIPPABLE = "skippable";
+        public const string SELECT_KEY = "selectKey";
         public const string LOOKUP = "lookup";
         public const string LABEL = "label";
         public const string OPTIONS = "options";

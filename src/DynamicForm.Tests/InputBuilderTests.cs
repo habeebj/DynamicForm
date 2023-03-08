@@ -96,7 +96,7 @@ namespace DynamicForm.Tests
             Uri.TryCreate("http://api.example.com/users", UriKind.RelativeOrAbsolute, out Uri? url);
 
             IOptionBuilder<User, object> builder = new InputBuilder<User, object>(Keys.NAME, InputType.Text.ToString());
-            builder.WithUrl<Response<User[]>>(url!, x => x.Data).Label(label);
+            builder.WithUrl<Response<User[]>, User>(url!, x => x.Data, x => x.Name).Label(label);
             var actual = ((IBuilder)builder).Build();
 
             actual.Should().ContainKeys(pullUrlKey, selectDataAccessorKey, labelKey);

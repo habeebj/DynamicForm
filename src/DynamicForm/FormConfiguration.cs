@@ -13,6 +13,8 @@ namespace DynamicForm
         private Api? _api;
         private int _index;
         private string _name;
+        private bool _skippable;
+        private string _description = "";
         private List<PreRequest> _preRequests = new();
 
         protected FormConfiguration()
@@ -21,6 +23,10 @@ namespace DynamicForm
         }
 
         protected void Name(string name) => _name = name;
+
+        protected void Skippable(bool skippable = true) => _skippable = skippable;
+
+        protected void Description(string description) => _description = description;
 
         protected void Index(int index) => _index = index;
 
@@ -53,7 +59,9 @@ namespace DynamicForm
             if (builder is FormBuilder _builder)
             {
                 _builder.Set(Keys.NAME, _name);
+                _builder.Set(Keys.DESCRIPTION, _description);
                 _builder.Set(Keys.INDEX, _index);
+                _builder.Set(Keys.SKIPPABLE, _skippable);
                 _builder.Set(Keys.PRE_REQUEST, _preRequests);
                 _builder.Set(Keys.API, _api ?? new object());
             }
