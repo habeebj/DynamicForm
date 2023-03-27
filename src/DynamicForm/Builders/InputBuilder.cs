@@ -87,9 +87,9 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder HiddenOn(Dictionary<string, object?> HiddenOnContent)
+        protected InputBuilder HiddenOn(Dictionary<string, object?> hiddenOnContent)
         {
-            _content[Keys.HIDDEN_ON] = HiddenOnContent;
+            _content[Keys.HIDDEN_ON] = hiddenOnContent;
             return this;
         }
 
