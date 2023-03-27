@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using DynamicForm.Builders.Interfaces;
 
 namespace DynamicForm.Builders
 {
@@ -19,7 +18,8 @@ namespace DynamicForm.Builders
 
         public Dictionary<string, object?> Contains<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression, TProperty[] values)
         {
-            throw new NotImplementedException();
+            var field = ((MemberExpression)propertyExpression.Body)?.Member.Name;
+            return Build(field, Keys.CONTAINS, values);
         }
 
         public Dictionary<string, object?> LessThan<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression, TProperty? value)
@@ -36,12 +36,13 @@ namespace DynamicForm.Builders
 
         public Dictionary<string, object?> NotContains<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression, TProperty[] values)
         {
-            throw new NotImplementedException();
+            var field = ((MemberExpression)propertyExpression.Body)?.Member.Name;
+            return Build(field, Keys.NOT_CONTAIN, values);
         }
 
         private Dictionary<string, object?> Build(string? field, string @operator, object? value)
         {
-            ArgumentNullException.ThrowIfNullOrEmpty(field, "field");
+            ArgumentNullException.ThrowIfNullOrEmpty(field, Keys.FIELD);
 
             var dictionary = new Dictionary<string, object?>();
             dictionary[Keys.FIELD] = field;
