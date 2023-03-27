@@ -24,12 +24,14 @@ namespace Sample.Configurations
             builder
                 .PasswordField(x => x.Password)
                 .Label("Password")
-                .WithValidation(x => x.MinLength(10));
+                .WithValidation(x => x.MinLength(10))
+                .VisibleOn(x => x.NotEquals(x => x.Email, null));
 
             builder
                 .PasswordField(x => x.Password)
+                .Label("Confirm Password")
                 .DependsOn(x => x.Email, x => x.Name)
-                .Label("Confirm Password");
+                .VisibleOn(x => x.NotEquals(x => x.Email, null));
         }
     }
 

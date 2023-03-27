@@ -81,6 +81,18 @@ namespace DynamicForm
             return this;
         }
 
+        protected InputBuilder VisibleOn(Dictionary<string, object?> visibleOnContent)
+        {
+            _content[Keys.VISIBLE_ON] = visibleOnContent;
+            return this;
+        }
+
+        protected InputBuilder HiddenOn(Dictionary<string, object?> hiddenOnContent)
+        {
+            _content[Keys.HIDDEN_ON] = hiddenOnContent;
+            return this;
+        }
+
         public void Set(string key, object value)
         {
             _content[key] = value;
