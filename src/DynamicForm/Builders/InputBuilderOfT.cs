@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using DynamicForm.Builders;
+using DynamicForm.Builders.Interfaces;
 using DynamicForm.Interfaces;
 using DynamicForm.Utilities;
 
@@ -151,6 +153,18 @@ namespace DynamicForm
             var builder = new FormBuilder<T>();
             formConfiguration.Configure(builder);
             return (InputBuilder<TModel, TProperty>)base.AddForm(builder.Build());
+        }
+
+        public IInputBuilder<TModel, TProperty> VisibleOn(Func<Builders.Interfaces.IComparer<TModel>, Dictionary<string, object?>> comparerBuilder)
+        {
+            var content = comparerBuilder.Invoke(new Builders.Comparer<TModel>());
+            return (InputBuilder<TModel, TProperty>)base.VisibleOn(content);
+        }
+
+        public IInputBuilder<TModel, TProperty> HiddenOn(Func<Builders.Interfaces.IComparer<TModel>, Dictionary<string, object?>> comparerBuilder)
+        {
+            var content = comparerBuilder.Invoke(new Builders.Comparer<TModel>());
+            return (InputBuilder<TModel, TProperty>)base.HiddenOn(content);
         }
     }
 }

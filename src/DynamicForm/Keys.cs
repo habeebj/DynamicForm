@@ -35,5 +35,15 @@ namespace DynamicForm
         public const string DESCRIPTION = "description";
         public const string BASE_URL = "base_url";
         public const string API = "api";
+
+        public const string VISIBLE_ON = "visibleOn";
+        public const string HIDDEN_ON = "HiddenOn";
+        public const string FIELD = "field";
+        public const string OPERATOR = "operator";
+        public const string VALUE = "value";
+        public const string EQUALS = "Equals";
+        public const string GREATER_THAN = "GreaterThan";
+        public const string LESS_THAN = "LessThan";
+        public const string NOT_EQUALS = "NotEquals";
     }
 }
