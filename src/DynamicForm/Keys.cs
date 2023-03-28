@@ -40,11 +40,12 @@ namespace DynamicForm
         public const string VALUE = "value";
         public const string OPERATOR = "operator";
 
+        public const string HIDDEN_ON = "hiddenOn";
+        public const string VISIBLE_ON = "visibleOn";
+        
         public const string EQUALS = "Equals";
         public const string CONTAINS = "Contains";
-        public const string HIDDEN_ON = "HiddenOn";
         public const string LESS_THAN = "LessThan";
-        public const string VISIBLE_ON = "visibleOn";
         public const string NOT_EQUALS = "NotEquals";
         public const string NOT_CONTAIN = "NotContain";
         public const string GREATER_THAN = "GreaterThan";
