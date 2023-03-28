@@ -1,6 +1,4 @@
 using System.Linq.Expressions;
-using DynamicForm.Builders;
-using DynamicForm.Builders.Interfaces;
 using DynamicForm.Interfaces;
 using DynamicForm.Utilities;
 
@@ -8,9 +6,15 @@ namespace DynamicForm
 {
     public class InputBuilder<TModel, TProperty> : InputBuilder, IInputBuilder<TModel, TProperty>, IOptionBuilder<TModel, TProperty>, IFormInputBuilder<TModel, TProperty> where TProperty : notnull
     {
-        private static string[] GetRecursiveProperties(LambdaExpression expression)
+        private static string[] GetRecursiveProperties(LambdaExpression? expression)
         {
+            if (expression is null)
+            {
+                return new string[] { };
+            }
+
             var properties = new List<string>();
+
             var memberExpression = GetMemberExpression(expression);
             while (memberExpression != null)
             {
@@ -95,10 +99,9 @@ namespace DynamicForm
             return (InputBuilder<TModel, TProperty>)base.SetData(uriString, property?.Split('.') ?? new string[] { }, selectKey);
         }
 
-        public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel, TSelectKeyModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>> selectExpression,
-            Expression<Func<TSelectKeyModel, object>>? selectKey = null)
+        public IInputBuilder<TModel, TProperty> WithUrl<TResponseModel, TSelectKeyModel>(Uri uri, Expression<Func<TResponseModel, IEnumerable<object>>>? dataPathExpression = null, Expression<Func<TSelectKeyModel, object>>? selectKey = null)
         {
-            var properties = GetRecursiveProperties(selectExpression);
+            var properties = GetRecursiveProperties(dataPathExpression);
             var selectKeyProperty = (selectKey?.Body as MemberExpression)?.Member.Name;
             return (IInputBuilder<TModel, TProperty>)base.SetData(uri.ToString(), properties, selectKeyProperty);
         }

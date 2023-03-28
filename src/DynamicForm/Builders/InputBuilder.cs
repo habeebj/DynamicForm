@@ -37,7 +37,7 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder SetData(string uri, IEnumerable<string> dataPath, string? selectKey)
+        protected InputBuilder SetData(string uri, string[] dataPath, string? selectKey)
         {
             _content[Keys.PULL_URL] = uri;
             _content[Keys.SELECT_DATA_ACCESSOR] = dataPath;

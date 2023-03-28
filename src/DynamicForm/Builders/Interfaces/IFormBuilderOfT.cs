@@ -15,6 +15,6 @@ namespace DynamicForm.Interfaces
 
         IOptionBuilder<TModel, TProperty> CheckBox<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression) where TProperty : notnull;
         IOptionBuilder<TModel, TProperty> Select<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression) where TProperty : notnull;
-        IFormInputBuilder<TModel, TProperty> FormInput<TProperty>(Expression<Func<TModel, IEnumerable<TProperty>>> propertyExpression) where TProperty : class;
+        IFormInputBuilder<TModel, TProperty> FormInput<TProperty>(Expression<Func<TModel, IEnumerable<TProperty>>> propertyExpression) where TProperty : notnull;
     }
 }

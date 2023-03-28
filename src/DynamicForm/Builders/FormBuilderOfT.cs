@@ -63,7 +63,7 @@ namespace DynamicForm
             return (IOptionBuilder<TModel, TProperty>)Property(propertyExpression, InputType.Select);
         }
 
-        public IFormInputBuilder<TModel, TProperty> FormInput<TProperty>(Expression<Func<TModel, IEnumerable<TProperty>>> propertyExpression) where TProperty : class
+        public IFormInputBuilder<TModel, TProperty> FormInput<TProperty>(Expression<Func<TModel, IEnumerable<TProperty>>> propertyExpression) where TProperty : notnull
         {
             var propertyName = ((MemberExpression)propertyExpression.Body)?.Member.Name;
             ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
