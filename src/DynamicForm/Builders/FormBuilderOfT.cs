@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using DynamicForm.Interfaces;
+using DynamicForm.Utilities;
 
 namespace DynamicForm
 {
@@ -7,7 +8,7 @@ namespace DynamicForm
     {
         public IInputBuilder<TModel, TProperty> Property<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression, InputType inputType = InputType.Text) where TProperty : notnull
         {
-            var propertyName = ((MemberExpression)propertyExpression.Body)?.Member.Name;
+            var propertyName = Utility.GetPropertyNameFromExpression(propertyExpression.Body);
             ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 
             return Property<TProperty>(propertyName, inputType);
@@ -15,7 +16,7 @@ namespace DynamicForm
 
         public IInputBuilder<TModel, TProperty> Property<TProperty>(string propertyName, InputType inputType = InputType.Text) where TProperty : notnull
         {
-            return base.Property<TModel, TProperty>(propertyName, inputType.ToString());
+            return base.Property<TModel, TProperty>(Utility.GetPropertyNameFromString(propertyName)!, inputType.ToString());
         }
 
         public IInputBuilder<TModel, TProperty> EmailField<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression) where TProperty : notnull

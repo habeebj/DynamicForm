@@ -1,9 +1,12 @@
 using System.Reflection;
+using DynamicForm.Options;
 
 namespace DynamicForm.AspCore.Options;
 public class DynamicFormOptions
 {
     public List<FormCollection> formCollections { internal get; set; } = new();
+
+    public void UseCamelCasingProperty(bool useCamelCasing = true) => PropertyOptions.UseCamelCasingForPropertyName = useCamelCasing;
 
     public void AddCollection<T>() where T : FormCollection
     {

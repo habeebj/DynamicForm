@@ -7,6 +7,7 @@ namespace Sample.Configurations
     {
         public override void Setup()
         {
+            Index(0);
             Name("Login Form");
             Api(HttpMethod.Post, "/accounts");
         }
@@ -28,7 +29,7 @@ namespace Sample.Configurations
                 .VisibleOn(x => x.NotEquals(x => x.Email, null));
 
             builder
-                .PasswordField(x => x.Password)
+                .ConfirmField(x => x.Password, InputType.Password)
                 .Label("Confirm Password")
                 .DependsOn(x => x.Email, x => x.Name)
                 .VisibleOn(x => x.NotEquals(x => x.Email, null));

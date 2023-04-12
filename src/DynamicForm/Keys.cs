@@ -35,6 +35,8 @@ namespace DynamicForm
         public const string DESCRIPTION = "description";
         public const string BASE_URL = "base_url";
         public const string API = "api";
+        
+        public const string ALLOW_NEGATIVE = "negative";
 
         public const string FIELD = "field";
         public const string VALUE = "value";
