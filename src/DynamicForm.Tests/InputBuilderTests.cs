@@ -1,4 +1,5 @@
 using DynamicForm.Interfaces;
+using DynamicForm.Utilities;
 using FluentAssertions;
 
 namespace DynamicForm.Tests
@@ -47,7 +48,7 @@ namespace DynamicForm.Tests
 
             actual.Should().ContainKeys(Keys.DEPENDS_ON);
             ((string[])actual[Keys.DEPENDS_ON]).Should().HaveCount(1);
-            ((string[])actual[Keys.DEPENDS_ON]).Should().Contain(nameof(User.Email));
+            ((string[])actual[Keys.DEPENDS_ON]).Should().Contain(nameof(User.Email).ToCamelCase());
         }
 
         [Fact]

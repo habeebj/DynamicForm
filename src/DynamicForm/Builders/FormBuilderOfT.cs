@@ -46,12 +46,12 @@ namespace DynamicForm
 
         public IInputBuilder<TModel, TProperty> ConfirmField<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression, InputType type) where TProperty : notnull
         {
-            var property = ((MemberExpression)propertyExpression.Body)?.Member.Name;
+            var property = $"Confirm{((MemberExpression)propertyExpression.Body)?.Member.Name}";
             ArgumentNullException.ThrowIfNull(property, nameof(property));
 
             var additionalFields = new Dictionary<string, object> { { "confirmField", property } };
 
-            return Property<TModel, TProperty>($"Confirm{property}", type.ToString(), additionalFields);
+            return Property<TModel, TProperty>(Utility.GetPropertyNameFromString(property)!, type.ToString(), additionalFields);
         }
 
         public IOptionBuilder<TModel, TProperty> CheckBox<TProperty>(Expression<Func<TModel, TProperty>> propertyExpression) where TProperty : notnull
