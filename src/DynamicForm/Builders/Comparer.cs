@@ -47,7 +47,7 @@ namespace DynamicForm.Builders
             var dictionary = new Dictionary<string, object?>();
             dictionary[Keys.FIELD] = field;
             dictionary[Keys.OPERATOR] = @operator;
-            dictionary[Keys.VALUE] = value;
+            dictionary[Keys.VALUE] = value is Enum ? value.ToString() : value;
             return dictionary;
         }
     }

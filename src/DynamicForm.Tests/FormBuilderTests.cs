@@ -1,4 +1,5 @@
 using DynamicForm.Interfaces;
+using DynamicForm.Utilities;
 using FluentAssertions;
 
 namespace DynamicForm.Tests
@@ -43,7 +44,7 @@ namespace DynamicForm.Tests
 
             act.Should().ContainKey(Keys.FORM);
             emailInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (emailInput[Keys.ID] as string).Should().Be(nameof(User.Name));
+            (emailInput[Keys.ID] as string).Should().Be(nameof(User.Name).ToCamelCase());
             (emailInput[Keys.TYPE] as string).Should().Be(InputType.Text.ToString().ToLower());
         }
 
@@ -68,27 +69,27 @@ namespace DynamicForm.Tests
             var confirmFieldInput = formInputs[5];
 
             act.Should().ContainKey(Keys.FORM);
-            (emailInput[Keys.ID] as string).Should().Be(nameof(User.Email));
+            (emailInput[Keys.ID] as string).Should().Be(nameof(User.Email).ToCamelCase());
             (emailInput[Keys.TYPE] as string).Should().Be(InputType.Email.ToString().ToLower());
 
             textInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (textInput[Keys.ID] as string).Should().Be(nameof(User.Name));
+            (textInput[Keys.ID] as string).Should().Be(nameof(User.Name).ToCamelCase());
             (textInput[Keys.TYPE] as string).Should().Be(InputType.Text.ToString().ToLower());
 
             textAreaInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (textAreaInput[Keys.ID] as string).Should().Be(nameof(User.Biography));
+            (textAreaInput[Keys.ID] as string).Should().Be(nameof(User.Biography).ToCamelCase());
             (textAreaInput[Keys.TYPE] as string).Should().Be(InputType.TextArea.ToString().ToLower());
 
             numberInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (numberInput[Keys.ID] as string).Should().Be(nameof(User.Age));
+            (numberInput[Keys.ID] as string).Should().Be(nameof(User.Age).ToCamelCase());
             (numberInput[Keys.TYPE] as string).Should().Be(InputType.Number.ToString().ToLower());
 
             passwordInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (passwordInput[Keys.ID] as string).Should().Be(nameof(User.Password));
+            (passwordInput[Keys.ID] as string).Should().Be(nameof(User.Password).ToCamelCase());
             (passwordInput[Keys.TYPE] as string).Should().Be(InputType.Password.ToString().ToLower());
 
             confirmFieldInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (confirmFieldInput[Keys.ID] as string).Should().Be($"Confirm{nameof(User.Password)}");
+            (confirmFieldInput[Keys.ID] as string).Should().Be($"confirm{nameof(User.Password)}");
             (confirmFieldInput[Keys.TYPE] as string).Should().Be(InputType.Password.ToString().ToLower());
         }
 
@@ -106,7 +107,7 @@ namespace DynamicForm.Tests
 
             act.Should().ContainKey(Keys.FORM);
             emailInput.Should().ContainKeys(Keys.ID, Keys.TYPE);
-            (emailInput[Keys.ID] as string).Should().Be(nameof(User.Email));
+            (emailInput[Keys.ID] as string).Should().Be(nameof(User.Email).ToCamelCase());
             (emailInput[Keys.TYPE] as string).Should().Be(InputType.Email.ToString().ToLower());
         }
     }

@@ -12,6 +12,7 @@ namespace DynamicForm
         protected FormCollection()
         {
             _name = this.GetType().Name.Replace("Collection", string.Empty);
+            Setup();
         }
 
         public string CollectionName => _name.Replace(' ', '-');

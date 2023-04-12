@@ -37,11 +37,11 @@ namespace DynamicForm
             return this;
         }
 
-        protected InputBuilder SetData(string uri, IEnumerable<string> dataPath, string? selectKey)
+        protected InputBuilder SetData(string uri, string[] dataPath, string? selectKey)
         {
             _content[Keys.PULL_URL] = uri;
             _content[Keys.SELECT_DATA_ACCESSOR] = dataPath;
-            _content[Keys.SELECT_KEY] = selectKey?.ToLower() ?? "name";
+            _content[Keys.SELECT_KEY] = selectKey ?? "name";
             return this;
         }
 
@@ -111,7 +111,7 @@ namespace DynamicForm
         protected InputBuilder AddForm(Dictionary<string, object> form)
         {
             var selectInputType = InputType.Select.ToString().ToLower();
-            _content[Keys.TYPE] = $"{selectInputType}-add";
+            _content[Keys.TYPE] = $"{selectInputType}_add";
             _content[Keys.FORM] = form;
             return this;
         }

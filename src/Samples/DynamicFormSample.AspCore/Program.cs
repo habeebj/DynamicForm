@@ -9,6 +9,7 @@ builder.Services.AddDynamicForm(options =>
     // options.AddContextFromAssembly(Assembly.GetExecutingAssembly());
     options.AddCollection<LoginFormCollection>();
     options.AddCollection<MerchantOnBoardingCollection>();
+    options.UseCamelCasingProperty(false); // Default value is True
 });
 
 builder.Services.AddEndpointsApiExplorer();
